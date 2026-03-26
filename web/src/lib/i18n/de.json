@@ -7,7 +7,9 @@
     "home": "Startseite",
     "search": "Suchen",
     "tags": "Kategorien",
-    "profile": "Profil"
+    "profile": "Profil",
+    "darkMode": "Dunkelmodus",
+    "lightMode": "Hellmodus"
   },
   "home": {
     "recent": "Neueste Anleitungen",

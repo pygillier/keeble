@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Box } from '@mantine/core';
+import { ActionIcon, Box, Button } from '@mantine/core';
+import { IconEdit, IconPencil } from '@tabler/icons-react';
 import { HeaderSlot } from '@/components/layout/AppShell';
 import { StepAccordion } from './StepAccordion';
 import { ImageLightbox } from './ImageLightbox';
+import { useAuth } from '@/lib/hooks/useAuth';
 import type { Document, Tag } from '@/types';
 import type { DocStep } from '@/lib/markdown';
 
@@ -18,6 +20,7 @@ interface DocViewerProps {
 
 export function DocViewer({ doc, steps, tags }: DocViewerProps) {
   const t = useTranslations('doc');
+  const { isAuthenticated } = useAuth();
   const [completed, setCompleted] = useState<Set<number>>(new Set());
   const [openStep, setOpenStep] = useState<number | null>(steps[0]?.number ?? null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
@@ -30,27 +33,35 @@ export function DocViewer({ doc, steps, tags }: DocViewerProps) {
     }
   }
 
-  const backLink = (
-    <Link
-      href="/"
-      style={{
-        color: 'rgba(255,255,255,0.9)',
-        textDecoration: 'none',
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '4px',
-        fontSize: '15px',
-        fontFamily: 'DM Sans, sans-serif',
-      }}
-    >
-      ← {t('back')}
-    </Link>
+  const backLinkStyle: React.CSSProperties = {
+    color: 'rgba(255,255,255,0.9)',
+    textDecoration: 'none',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '4px',
+    fontSize: '15px',
+    fontFamily: 'DM Sans, sans-serif',
+  };
+
+  const backLink = <Link href="/" style={backLinkStyle}>← {t('back')}</Link>;
+
+  const headerContent = (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+      {backLink}
+      {isAuthenticated && (
+        <Link href={`/edit/${doc.id}`} aria-label={t('edit')}>
+          <ActionIcon variant="subtle" color="white" size="lg">
+            <IconPencil size={18} />
+          </ActionIcon>
+        </Link>
+      )}
+    </div>
   );
 
   return (
     <>
-      {/* Header slot — back link in the green app header on all screen sizes */}
-      <HeaderSlot>{backLink}</HeaderSlot>
+      {/* Header slot — back link (+ edit button for admins) in the green app header */}
+      <HeaderSlot>{headerContent}</HeaderSlot>
 
       {/* Document hero — green band with title + ghost tag pills */}
       <div
@@ -60,9 +71,21 @@ export function DocViewer({ doc, steps, tags }: DocViewerProps) {
           color: 'white',
         }}
       >
-        {/* Desktop-only back link inside content (header slot already handles it) */}
-        <Box visibleFrom="md" mb={12}>
+        {/* Desktop-only: back link + edit button row */}
+        <Box visibleFrom="md" mb={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {backLink}
+          {isAuthenticated && (
+            <Link href={`/edit/${doc.id}`}>
+              <Button
+                size="xs"
+                variant="white"
+                color="dark"
+                leftSection={<IconEdit size={14} />}
+              >
+                {t('edit')}
+              </Button>
+            </Link>
+          )}
         </Box>
 
         <h1

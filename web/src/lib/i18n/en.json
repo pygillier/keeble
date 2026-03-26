@@ -7,7 +7,9 @@
     "home": "Home",
     "search": "Search",
     "tags": "Tags",
-    "profile": "Profile"
+    "profile": "Profile",
+    "darkMode": "Dark mode",
+    "lightMode": "Light mode"
   },
   "home": {
     "recent": "Recent guides",

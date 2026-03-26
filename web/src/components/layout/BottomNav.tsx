@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useComputedColorScheme } from '@mantine/core';
 import {
   IconHome,
   IconHomeFilled,
@@ -23,14 +24,16 @@ const NAV_ITEMS = [
 export function BottomNav() {
   const pathname = usePathname();
   const t = useTranslations('nav');
+  const colorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+  const isDark = colorScheme === 'dark';
 
   return (
     <nav
       aria-label={t('home')}
       style={{
         display: 'flex',
-        borderTop: '1px solid #D5DBDD',
-        backgroundColor: '#F7F5F0',
+        borderTop: `1px solid ${isDark ? '#373A40' : '#D5DBDD'}`,
+        backgroundColor: isDark ? '#141517' : '#F7F5F0',
       }}
     >
       {NAV_ITEMS.map(({ href, labelKey, Icon, IconActive }) => {
@@ -52,7 +55,7 @@ export function BottomNav() {
               minHeight: '56px',
               paddingBlock: '8px',
               textDecoration: 'none',
-              color: isActive ? '#2B6E4E' : '#6C838D',
+              color: isActive ? '#2B6E4E' : (isDark ? '#909296' : '#6C838D'),
               fontFamily: 'DM Sans, sans-serif',
               fontSize: '11px',
               gap: '3px',
