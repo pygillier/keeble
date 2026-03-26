@@ -79,12 +79,12 @@ Shared layout and bottom navigation bar for all authenticated routes.
 
 `/doc/[id]` — mobile-first step-by-step reader.
 
-- [ ] Build `web/src/app/(app)/doc/[id]/page.tsx` (Server Component): fetch document by ID; parse markdown body into steps (split on `## Step N:` headings); pass to `DocViewer`
-- [ ] Build `web/src/components/doc/DocViewer.tsx` (Client Component): renders `StepAccordion` list; tracks completed steps in local state
-- [ ] Build `web/src/components/doc/StepAccordion.tsx`: collapsible step item; numbered circle (forest green); smooth max-height CSS transition; "Mark as done" button advances to next step; completed steps get ✓ and faded style
-- [ ] Build `web/src/components/doc/ImageLightbox.tsx`: full-screen image overlay; tap anywhere to close; images sourced from PocketBase file URLs
-- [ ] Add document header: `← Back` link, title, tag pills (ghost style on green background)
-- [ ] Add `revalidatePath('/doc/[id]')` in any mutation that updates a document
+- [x] Build `web/src/app/(app)/doc/[id]/page.tsx` (Server Component): fetch document by ID; parse markdown body into steps (split on `## Step N:` headings); pass to `DocViewer`
+- [x] Build `web/src/components/doc/DocViewer.tsx` (Client Component): renders `StepAccordion` list; tracks completed steps in local state
+- [x] Build `web/src/components/doc/StepAccordion.tsx`: collapsible step item; numbered circle (forest green); smooth max-height CSS transition; "Mark as done" button advances to next step; completed steps get ✓ and faded style
+- [x] Build `web/src/components/doc/ImageLightbox.tsx`: full-screen image overlay; tap anywhere to close; images sourced from PocketBase file URLs
+- [x] Add document header: `← Back` link, title, tag pills (ghost style on green background)
+- [x] Add `revalidatePath('/doc/[id]')` in any mutation that updates a document
 
 ---
 
