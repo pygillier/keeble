@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { DM_Sans, Lora } from 'next/font/google';
-import { ColorSchemeScript } from '@mantine/core';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import '@mantine/core/styles.css';
@@ -33,9 +32,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${dmSans.variable} ${lora.variable}`}>
-      <head>
-        <ColorSchemeScript defaultColorScheme="light" />
-      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>

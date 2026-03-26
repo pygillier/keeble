@@ -3,21 +3,18 @@
 // Custom endpoint called by the setup wizard to mark setup as complete.
 // It is intentionally unauthenticated but only succeeds when setup_completed = false,
 // preventing it from being used after the wizard has already run.
-routerAdd("POST", "/api/keeble/complete-setup", (c) => {
-    const body = {};
-    c.bind(body);
-
-    const dao = $app.dao();
+routerAdd("POST", "/api/keeble/complete-setup", (e) => {
+    const body = e.requestInfo().body;
 
     let settings;
     try {
-        settings = dao.findFirstRecordByFilter("settings", "setup_completed = false");
+        settings = $app.findFirstRecordByFilter("settings", "setup_completed = false");
     } catch (_) {
-        return c.json(400, { "error": "Setup already completed or settings not found" });
+        return e.json(400, { "error": "Setup already completed or settings not found" });
     }
 
     if (!settings) {
-        return c.json(400, { "error": "Setup already completed" });
+        return e.json(400, { "error": "Setup already completed" });
     }
 
     if (body.app_name) {
@@ -29,10 +26,10 @@ routerAdd("POST", "/api/keeble/complete-setup", (c) => {
     settings.set("setup_completed", true);
 
     try {
-        dao.saveRecord(settings);
-    } catch (e) {
-        return c.json(500, { "error": "Failed to save settings: " + String(e) });
+        $app.save(settings);
+    } catch (err) {
+        return e.json(500, { "error": "Failed to save settings: " + String(err) });
     }
 
-    return c.json(200, { "success": true });
+    return e.json(200, { "success": true });
 });
