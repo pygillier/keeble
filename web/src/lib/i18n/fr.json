@@ -1,0 +1,96 @@
+{
+  "app": {
+    "name": "Keeble",
+    "tagline": "Le guide familial de tout"
+  },
+  "nav": {
+    "home": "Accueil",
+    "search": "Rechercher",
+    "tags": "Catégories",
+    "profile": "Profil"
+  },
+  "home": {
+    "recent": "Guides récents",
+    "categories": "Catégories",
+    "noDocuments": "Aucun guide pour l'instant.",
+    "addFirst": "Ajouter votre premier guide"
+  },
+  "search": {
+    "placeholder": "Chercher des guides…",
+    "results": "{count, plural, =0 {Aucun résultat} one {1 résultat} other {{count} résultats}}",
+    "noResults": "Aucun guide ne correspond à votre recherche.",
+    "loading": "Recherche…"
+  },
+  "doc": {
+    "step": "Étape {number}",
+    "markDone": "Marquer comme fait",
+    "back": "Retour",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleteConfirm": "Voulez-vous vraiment supprimer ce guide ?",
+    "deleteConfirmButton": "Supprimer",
+    "cancel": "Annuler"
+  },
+  "editor": {
+    "title": "Titre",
+    "slug": "Slug URL",
+    "tags": "Catégories",
+    "content": "Contenu",
+    "preview": "Aperçu",
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "saved": "Enregistré",
+    "newDocument": "Nouveau guide",
+    "uploadImage": "Ajouter une image",
+    "dragImage": "Déposez une image ici ou cliquez pour parcourir"
+  },
+  "tags": {
+    "all": "Toutes les catégories",
+    "documents": "{count, plural, =0 {Aucun guide} one {1 guide} other {{count} guides}}"
+  },
+  "auth": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "loginButton": "Se connecter",
+    "loginError": "Adresse e-mail ou mot de passe incorrect."
+  },
+  "setup": {
+    "welcome": {
+      "title": "Bienvenue sur Keeble",
+      "subtitle": "Le coffre-fort documentaire de votre famille",
+      "description": "Des guides pas à pas pour tous les membres de votre foyer.",
+      "cta": "Commencer"
+    },
+    "admin": {
+      "title": "Créer votre compte administrateur",
+      "familyName": "Prénom",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "next": "Suivant"
+    },
+    "locale": {
+      "title": "Langue et nom",
+      "familyName": "Nom de la famille",
+      "language": "Langue",
+      "next": "Suivant"
+    },
+    "import": {
+      "title": "Importer des guides de démarrage",
+      "description": "Déposez des fichiers .md ici pour les importer, ou passez cette étape.",
+      "skip": "Passer",
+      "finish": "Terminer la configuration"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "language": "Langue",
+    "logout": "Se déconnecter"
+  },
+  "errors": {
+    "notFound": "Page introuvable",
+    "serverError": "Une erreur s'est produite",
+    "goHome": "Retour à l'accueil"
+  }
+}

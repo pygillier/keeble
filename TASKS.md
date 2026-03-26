@@ -39,15 +39,15 @@ Define all collections and wire up the client singleton.
 
 Guard the app until setup is complete; then enforce login.
 
-- [ ] Write `web/src/middleware.ts`: check `settings.setup_completed`; if false and path ≠ `/setup`, redirect to `/setup`; if true and unauthenticated and path is protected, redirect to `/login`
-- [ ] Build `/setup` route (`web/src/app/setup/`) — 4-step wizard matching the design:
-  - [ ] Step 1: Welcome screen (app name, tagline, "Get started" CTA)
-  - [ ] Step 2: Create admin account (family name, email, password form → PocketBase admin creation)
-  - [ ] Step 3: Set locale + family name (dropdown from `en/fr/de/es`)
-  - [ ] Step 4: Import starter documents (optional drag-and-drop `.md` files) + "Finish setup" → sets `setup_completed: true`, redirects to `/`
-- [ ] Build `/login` page: email + password form → PocketBase `authWithPassword`; redirect to `/` on success
-- [ ] Add logout action (clears PocketBase auth store; redirects to `/login`)
-- [ ] Add `web/src/lib/i18n/en.json`, `fr.json`, `de.json`, `es.json` with all user-facing string keys
+- [x] Write `web/src/middleware.ts`: check `settings.setup_completed`; if false and path ≠ `/setup`, redirect to `/setup`; if true and unauthenticated and path is protected, redirect to `/login`
+- [x] Build `/setup` route (`web/src/app/setup/`) — 4-step wizard matching the design:
+  - [x] Step 1: Welcome screen (app name, tagline, "Get started" CTA)
+  - [x] Step 2: Create admin account (family name, email, password form → PocketBase admin creation)
+  - [x] Step 3: Set locale + family name (dropdown from `en/fr/de/es`)
+  - [x] Step 4: Import starter documents (optional drag-and-drop `.md` files) + "Finish setup" → sets `setup_completed: true`, redirects to `/`
+- [x] Build `/login` page: email + password form → PocketBase `authWithPassword`; redirect to `/` on success
+- [x] Add logout action (clears PocketBase auth store; redirects to `/login`)
+- [x] Add `web/src/lib/i18n/en.json`, `fr.json`, `de.json`, `es.json` with all user-facing string keys
 
 ---
 

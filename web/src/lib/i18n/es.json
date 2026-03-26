@@ -1,0 +1,96 @@
+{
+  "app": {
+    "name": "Keeble",
+    "tagline": "La guía familiar para todo"
+  },
+  "nav": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "tags": "Categorías",
+    "profile": "Perfil"
+  },
+  "home": {
+    "recent": "Guías recientes",
+    "categories": "Categorías",
+    "noDocuments": "Todavía no hay guías.",
+    "addFirst": "Añadir la primera guía"
+  },
+  "search": {
+    "placeholder": "Buscar guías…",
+    "results": "{count, plural, =0 {Sin resultados} one {1 resultado} other {{count} resultados}}",
+    "noResults": "Ninguna guía coincide con su búsqueda.",
+    "loading": "Buscando…"
+  },
+  "doc": {
+    "step": "Paso {number}",
+    "markDone": "Marcar como hecho",
+    "back": "Volver",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "deleteConfirm": "¿Está seguro de que desea eliminar esta guía?",
+    "deleteConfirmButton": "Eliminar",
+    "cancel": "Cancelar"
+  },
+  "editor": {
+    "title": "Título",
+    "slug": "Slug de URL",
+    "tags": "Categorías",
+    "content": "Contenido",
+    "preview": "Vista previa",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "saved": "Guardado",
+    "newDocument": "Nueva guía",
+    "uploadImage": "Subir imagen",
+    "dragImage": "Arrastre una imagen aquí o haga clic para explorar"
+  },
+  "tags": {
+    "all": "Todas las categorías",
+    "documents": "{count, plural, =0 {Sin guías} one {1 guía} other {{count} guías}}"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "loginButton": "Iniciar sesión",
+    "loginError": "Correo electrónico o contraseña incorrectos."
+  },
+  "setup": {
+    "welcome": {
+      "title": "Bienvenido a Keeble",
+      "subtitle": "El almacén documental de su familia",
+      "description": "Guías paso a paso para todos en su hogar.",
+      "cta": "Empezar"
+    },
+    "admin": {
+      "title": "Crear cuenta de administrador",
+      "familyName": "Nombre",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "next": "Siguiente"
+    },
+    "locale": {
+      "title": "Idioma y nombre",
+      "familyName": "Nombre de la familia",
+      "language": "Idioma",
+      "next": "Siguiente"
+    },
+    "import": {
+      "title": "Importar guías de inicio",
+      "description": "Arrastre archivos .md aquí para importarlos, o salte este paso.",
+      "skip": "Saltar",
+      "finish": "Finalizar configuración"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "language": "Idioma",
+    "logout": "Cerrar sesión"
+  },
+  "errors": {
+    "notFound": "Página no encontrada",
+    "serverError": "Algo salió mal",
+    "goHome": "Ir al inicio"
+  }
+}

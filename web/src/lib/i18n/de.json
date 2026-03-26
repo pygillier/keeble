@@ -1,0 +1,96 @@
+{
+  "app": {
+    "name": "Keeble",
+    "tagline": "Der Familienratgeber für alles"
+  },
+  "nav": {
+    "home": "Startseite",
+    "search": "Suchen",
+    "tags": "Kategorien",
+    "profile": "Profil"
+  },
+  "home": {
+    "recent": "Neueste Anleitungen",
+    "categories": "Kategorien",
+    "noDocuments": "Noch keine Anleitungen.",
+    "addFirst": "Erste Anleitung hinzufügen"
+  },
+  "search": {
+    "placeholder": "Anleitungen suchen…",
+    "results": "{count, plural, =0 {Keine Ergebnisse} one {1 Ergebnis} other {{count} Ergebnisse}}",
+    "noResults": "Keine Anleitungen gefunden.",
+    "loading": "Suche läuft…"
+  },
+  "doc": {
+    "step": "Schritt {number}",
+    "markDone": "Als erledigt markieren",
+    "back": "Zurück",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "deleteConfirm": "Diese Anleitung wirklich löschen?",
+    "deleteConfirmButton": "Löschen",
+    "cancel": "Abbrechen"
+  },
+  "editor": {
+    "title": "Titel",
+    "slug": "URL-Slug",
+    "tags": "Kategorien",
+    "content": "Inhalt",
+    "preview": "Vorschau",
+    "save": "Speichern",
+    "saving": "Wird gespeichert…",
+    "saved": "Gespeichert",
+    "newDocument": "Neue Anleitung",
+    "uploadImage": "Bild hochladen",
+    "dragImage": "Bild hier ablegen oder klicken zum Durchsuchen"
+  },
+  "tags": {
+    "all": "Alle Kategorien",
+    "documents": "{count, plural, =0 {Keine Anleitungen} one {1 Anleitung} other {{count} Anleitungen}}"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "loginButton": "Anmelden",
+    "loginError": "Ungültige E-Mail oder Passwort."
+  },
+  "setup": {
+    "welcome": {
+      "title": "Willkommen bei Keeble",
+      "subtitle": "Der Dokumententresor Ihrer Familie",
+      "description": "Schritt-für-Schritt-Anleitungen für jeden in Ihrem Haushalt.",
+      "cta": "Loslegen"
+    },
+    "admin": {
+      "title": "Admin-Konto erstellen",
+      "familyName": "Vorname",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "next": "Weiter"
+    },
+    "locale": {
+      "title": "Sprache & Name",
+      "familyName": "Familienname",
+      "language": "Sprache",
+      "next": "Weiter"
+    },
+    "import": {
+      "title": "Startanleitungen importieren",
+      "description": ".md-Dateien hier ablegen oder diesen Schritt überspringen.",
+      "skip": "Überspringen",
+      "finish": "Einrichtung abschließen"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "language": "Sprache",
+    "logout": "Abmelden"
+  },
+  "errors": {
+    "notFound": "Seite nicht gefunden",
+    "serverError": "Etwas ist schiefgelaufen",
+    "goHome": "Zur Startseite"
+  }
+}
