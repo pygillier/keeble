@@ -113,15 +113,15 @@ Shared layout and bottom navigation bar for all authenticated routes.
 
 `/edit/[id]` and `/edit/new` — markdown editor for desktop.
 
-- [ ] Build `web/src/app/(app)/edit/[id]/page.tsx` (Client Component entry): load document, pass to `DocEditor`
-- [ ] Build `web/src/components/doc/DocEditor.tsx`: two-column layout (editor left, preview right); hidden on mobile (redirect to viewer)
-- [ ] Build editor left pane: `<textarea>` with monospace font; live-syncs to preview on change; tab key inserts 2 spaces
-- [ ] Build preview right pane: renders parsed markdown via `parseDoc()`; large decorative Lora step numbers (matching prototype); image placeholders for not-yet-uploaded files
-- [ ] Build `web/src/components/doc/FrontmatterSidebar.tsx`: title input, slug input (auto-generated from title, editable), tag multi-select (add/remove `TagPill`), image upload drop zone
-- [ ] Implement image upload: drag-and-drop onto drop zone or click → file picker → upload to PocketBase `documents.images`; insert `![alt](url)` at cursor position in textarea
-- [ ] Wire save: `PATCH /api/collections/documents/records/[id]` via `pb.collection('documents').update()`; `revalidatePath` on success; show save confirmation toast
-- [ ] Wire create new: `POST` to PocketBase; redirect to `/edit/[newId]` after creation
-- [ ] Add delete document action with confirmation dialog
+- [x] Build `web/src/app/(app)/edit/[id]/page.tsx` (Client Component entry): load document, pass to `DocEditor`
+- [x] Build `web/src/components/doc/DocEditor.tsx`: two-column layout (editor left, preview right); hidden on mobile (redirect to viewer)
+- [x] Build editor left pane: `<textarea>` with monospace font; live-syncs to preview on change; tab key inserts 2 spaces
+- [x] Build preview right pane: renders parsed markdown via `parseDoc()`; large decorative Lora step numbers (matching prototype); image placeholders for not-yet-uploaded files
+- [x] Build `web/src/components/doc/FrontmatterSidebar.tsx`: title input, slug input (auto-generated from title, editable), tag multi-select (add/remove `TagPill`), image upload drop zone
+- [x] Implement image upload: drag-and-drop onto drop zone or click → file picker → upload to PocketBase `documents.images`; insert `![alt](url)` at cursor position in textarea
+- [x] Wire save: `PATCH /api/collections/documents/records/[id]` via `pb.collection('documents').update()`; `revalidatePath` on success; show save confirmation toast
+- [x] Wire create new: `POST` to PocketBase; redirect to `/edit/[newId]` after creation
+- [x] Add delete document action with confirmation dialog
 
 ---
 
