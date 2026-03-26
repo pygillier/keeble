@@ -12,6 +12,7 @@
   "dependencies": {
     "@mantine/core": "^8.3.18",
     "@mantine/hooks": "^8.3.18",
+    "@tabler/icons-react": "^3.40.0",
     "gray-matter": "^4.0.3",
     "next": "14.2.35",
     "next-intl": "^4.8.3",

@@ -55,10 +55,10 @@ Guard the app until setup is complete; then enforce login.
 
 Shared layout and bottom navigation bar for all authenticated routes.
 
-- [ ] Build `web/src/components/layout/AppShell.tsx`: wraps all `(app)` routes; renders `BottomNav` on mobile, sidebar nav on desktop (`md` breakpoint)
-- [ ] Build `web/src/components/layout/BottomNav.tsx`: Home / Search / Tags / Profile icons; active state via `usePathname`; min 48 px tap targets; labels translated via `t()`
-- [ ] Build `web/src/components/layout/Header.tsx`: green header band with wordmark (Lora) + avatar button; accepts optional `children` slot for search bar or back navigation
-- [ ] Create `web/src/app/(app)/layout.tsx`: uses `AppShell`; checks auth via middleware (already handled); passes locale to `next-intl`
+- [x] Build `web/src/components/layout/AppShell.tsx`: wraps all `(app)` routes; renders `BottomNav` on mobile, sidebar nav on desktop (`md` breakpoint)
+- [x] Build `web/src/components/layout/BottomNav.tsx`: Home / Search / Tags / Profile icons; active state via `usePathname`; min 48 px tap targets; labels translated via `t()`
+- [x] Build `web/src/components/layout/Header.tsx`: green header band with wordmark (Lora) + avatar button; accepts optional `children` slot for search bar or back navigation
+- [x] Create `web/src/app/(app)/layout.tsx`: uses `AppShell`; checks auth via middleware (already handled); passes locale to `next-intl`
 
 ---
 
