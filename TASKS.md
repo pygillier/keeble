@@ -104,8 +104,8 @@ Shared layout and bottom navigation bar for all authenticated routes.
 
 `/tags` — browse all categories.
 
-- [ ] Build `web/src/app/(app)/tags/page.tsx`: grid of all tags with document count; click → `/tags/[name]`
-- [ ] Build `web/src/app/(app)/tags/[name]/page.tsx`: filtered document list for one tag
+- [x] Build `web/src/app/(app)/tags/page.tsx`: grid of all tags with document count; click → `/tags/[name]`
+- [x] Build `web/src/app/(app)/tags/[name]/page.tsx`: filtered document list for one tag
 
 ---
 
