@@ -48,7 +48,19 @@
   },
   "tags": {
     "all": "All categories",
-    "documents": "{count, plural, =0 {No guides} one {1 guide} other {{count} guides}}"
+    "documents": "{count, plural, =0 {No guides} one {1 guide} other {{count} guides}}",
+    "noTags": "No categories yet.",
+    "newTag": "New tag",
+    "editTag": "Edit tag",
+    "deleteTag": "Delete tag",
+    "deleteConfirm": "Delete the tag \"{name}\"? It will be removed from all guides.",
+    "deleteConfirmButton": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "name": "Name",
+    "namePlaceholder": "e.g. Kitchen",
+    "nameRequired": "Name is required",
+    "color": "Color"
   },
   "auth": {
     "login": "Sign in",

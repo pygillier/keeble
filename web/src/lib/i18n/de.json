@@ -48,7 +48,19 @@
   },
   "tags": {
     "all": "Alle Kategorien",
-    "documents": "{count, plural, =0 {Keine Anleitungen} one {1 Anleitung} other {{count} Anleitungen}}"
+    "documents": "{count, plural, =0 {Keine Anleitungen} one {1 Anleitung} other {{count} Anleitungen}}",
+    "noTags": "Noch keine Kategorien.",
+    "newTag": "Neue Kategorie",
+    "editTag": "Kategorie bearbeiten",
+    "deleteTag": "Kategorie löschen",
+    "deleteConfirm": "Kategorie \"{name}\" löschen? Sie wird aus allen Anleitungen entfernt.",
+    "deleteConfirmButton": "Löschen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "name": "Name",
+    "namePlaceholder": "z. B. Küche",
+    "nameRequired": "Name ist erforderlich",
+    "color": "Farbe"
   },
   "auth": {
     "login": "Anmelden",

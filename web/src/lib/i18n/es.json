@@ -48,7 +48,19 @@
   },
   "tags": {
     "all": "Todas las categorías",
-    "documents": "{count, plural, =0 {Sin guías} one {1 guía} other {{count} guías}}"
+    "documents": "{count, plural, =0 {Sin guías} one {1 guía} other {{count} guías}}",
+    "noTags": "Todavía no hay categorías.",
+    "newTag": "Nueva categoría",
+    "editTag": "Editar categoría",
+    "deleteTag": "Eliminar categoría",
+    "deleteConfirm": "¿Eliminar la categoría «{name}»? Se eliminará de todas las guías.",
+    "deleteConfirmButton": "Eliminar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "name": "Nombre",
+    "namePlaceholder": "p. ej. Cocina",
+    "nameRequired": "El nombre es obligatorio",
+    "color": "Color"
   },
   "auth": {
     "login": "Iniciar sesión",
