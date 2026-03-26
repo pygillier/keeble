@@ -23,15 +23,15 @@ Stand up the monorepo skeleton so both services can run locally.
 
 Define all collections and wire up the client singleton.
 
-- [ ] Write migration `pb_migrations/1_collections.js` creating `documents`, `tags`, `settings` collections with all fields from the data model in CLAUDE.md
-- [ ] Configure `documents` API rules: authenticated users can read/write; unauthenticated users read-only (for family members without accounts)
-- [ ] Configure `tags` API rules: any authenticated user can read; only admin can write
-- [ ] Create `settings` collection as a singleton (one record, no list endpoint needed for clients)
-- [ ] Seed migration `pb_migrations/2_seed.js`: insert default `settings` record (`setup_completed: false`, `default_locale: en`, `app_name: Keeble`)
-- [ ] Write `web/src/lib/pb.ts`: PocketBase client singleton (SSR-safe, reads `POCKETBASE_URL` env var)
-- [ ] Write `web/src/types/index.ts`: TypeScript types for `Document`, `Tag`, `Settings` matching PocketBase schema
-- [ ] Write `web/src/lib/hooks/useDocs.ts` and `useAuth.ts` client hooks (PocketBase realtime subscription for useDocs)
-- [ ] Write `web/src/lib/markdown.ts`: `parseDoc()` (markdown → HTML via remark) and `serializeDoc()` (fields → markdown with frontmatter via gray-matter)
+- [x] Write migration `pb_migrations/1_collections.js` creating `documents`, `tags`, `settings` collections with all fields from the data model in CLAUDE.md
+- [x] Configure `documents` API rules: authenticated users can read/write; unauthenticated users read-only (for family members without accounts)
+- [x] Configure `tags` API rules: any authenticated user can read; only admin can write
+- [x] Create `settings` collection as a singleton (one record, no list endpoint needed for clients)
+- [x] Seed migration `pb_migrations/2_seed.js`: insert default `settings` record (`setup_completed: false`, `default_locale: en`, `app_name: Keeble`)
+- [x] Write `web/src/lib/pb.ts`: PocketBase client singleton (SSR-safe, reads `POCKETBASE_URL` env var)
+- [x] Write `web/src/types/index.ts`: TypeScript types for `Document`, `Tag`, `Settings` matching PocketBase schema
+- [x] Write `web/src/lib/hooks/useDocs.ts` and `useAuth.ts` client hooks (PocketBase realtime subscription for useDocs)
+- [x] Write `web/src/lib/markdown.ts`: `parseDoc()` (markdown → HTML via remark) and `serializeDoc()` (fields → markdown with frontmatter via gray-matter)
 
 ---
 
