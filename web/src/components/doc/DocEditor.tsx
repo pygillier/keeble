@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getPb } from '@/lib/pb';
 import { parseDoc } from '@/lib/markdown';
+import { createDocAction, updateDocAction, deleteDocAction } from '@/lib/actions/doc';
 import { FrontmatterSidebar } from './FrontmatterSidebar';
 import type { Document, Tag } from '@/types';
 
@@ -95,22 +95,23 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
   async function handleSave() {
     if (!title.trim()) return;
     setSaveStatus('saving');
+    const data = {
+      title: title.trim(),
+      slug: slug.trim() || slugify(title.trim()),
+      body,
+      tags: selectedTagIds,
+    };
     try {
-      const pb = getPb();
-      const data = {
-        title: title.trim(),
-        slug: slug.trim() || slugify(title.trim()),
-        body,
-        tags: selectedTagIds,
-      };
       if (doc) {
-        await pb.collection('documents').update(doc.id, data);
+        const result = await updateDocAction(doc.id, data);
+        if (!result.success) throw new Error(result.error);
         setSaveStatus('saved');
         router.refresh();
         setTimeout(() => setSaveStatus('idle'), 2000);
       } else {
-        const created = await pb.collection('documents').create<Document>(data);
-        router.push(`/edit/${created.id}`);
+        const result = await createDocAction(data);
+        if (!result.success) throw new Error(result.error);
+        router.push(`/edit/${result.id}`);
       }
     } catch {
       setSaveStatus('error');
@@ -120,12 +121,11 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
 
   async function handleDelete() {
     if (!doc) return;
-    try {
-      const pb = getPb();
-      await pb.collection('documents').delete(doc.id);
+    const result = await deleteDocAction(doc.id);
+    if (result.success) {
       router.push('/');
       router.refresh();
-    } catch {
+    } else {
       setShowDeleteConfirm(false);
     }
   }
