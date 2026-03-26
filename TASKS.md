@@ -92,11 +92,11 @@ Shared layout and bottom navigation bar for all authenticated routes.
 
 `/search` — full-text search with highlighted results.
 
-- [ ] Build `web/src/app/(app)/search/page.tsx` (Server Component for initial render with `?q=` param)
-- [ ] Build `web/src/lib/hooks/useSearch.ts`: calls PocketBase filter API (`title ~ "{q}" || body ~ "{q}" || tags.name ~ "{q}"`); 300 ms debounce; returns ranked results (title match first)
-- [ ] Build `web/src/components/search/SearchResults.tsx`: list of `ResultCard` components; shows match count
-- [ ] Build `web/src/components/search/ResultCard.tsx`: title with highlighted match (wrap matched substring in `<mark>`), snippet with highlight, tag pills
-- [ ] Handle empty state (no results) and loading skeleton
+- [x] Build `web/src/app/(app)/search/page.tsx` (Server Component for initial render with `?q=` param)
+- [x] Build `web/src/lib/hooks/useSearch.ts`: calls PocketBase filter API (`title ~ "{q}" || body ~ "{q}" || tags.name ~ "{q}"`); 300 ms debounce; returns ranked results (title match first)
+- [x] Build `web/src/components/search/SearchResults.tsx`: list of `ResultCard` components; shows match count
+- [x] Build `web/src/components/search/ResultCard.tsx`: title with highlighted match (wrap matched substring in `<mark>`), snippet with highlight, tag pills
+- [x] Handle empty state (no results) and loading skeleton
 
 ---
 

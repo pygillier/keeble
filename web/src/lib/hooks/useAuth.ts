@@ -7,12 +7,12 @@ import { getPb } from '@/lib/pb';
 export function useAuth() {
   const pb = getPb();
   const [user, setUser] = useState<User | null>(
-    pb.authStore.isValid ? (pb.authStore.model as User) : null,
+    pb.authStore.isValid ? (pb.authStore.model as unknown as User) : null,
   );
 
   useEffect(() => {
     const unsubscribe = pb.authStore.onChange(() => {
-      setUser(pb.authStore.isValid ? (pb.authStore.model as User) : null);
+      setUser(pb.authStore.isValid ? (pb.authStore.model as unknown as User) : null);
     });
     return () => unsubscribe();
   }, [pb]);
