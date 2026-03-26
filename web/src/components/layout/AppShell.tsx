@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { AppShell, NavLink } from '@mantine/core';
@@ -15,6 +17,36 @@ import {
 } from '@tabler/icons-react';
 import { AppHeader } from './Header';
 import { BottomNav } from './BottomNav';
+
+// ---------------------------------------------------------------------------
+// Header slot — lets child pages inject content (e.g. SearchBar) into the
+// green header band without requiring prop-drilling through the layout.
+// ---------------------------------------------------------------------------
+
+const HeaderSlotCtx = createContext<(node: ReactNode) => void>(() => {});
+
+/**
+ * Render this anywhere inside the (app) layout to place content in the
+ * green header instead of the default wordmark. Unmounts cleanly.
+ */
+export function HeaderSlot({ children }: { children: ReactNode }) {
+  const setSlot = useContext(HeaderSlotCtx);
+  // Use a ref so the effect only runs on mount/unmount, not on every render.
+  const ref = useRef(children);
+  ref.current = children;
+
+  useEffect(() => {
+    setSlot(ref.current);
+    return () => setSlot(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setSlot]);
+
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// Desktop sidebar nav
+// ---------------------------------------------------------------------------
 
 const NAV_ITEMS = [
   { href: '/', labelKey: 'home', Icon: IconHome, IconActive: IconHomeFilled },
@@ -47,7 +79,6 @@ function SidebarNav() {
                 marginBottom: '4px',
                 color: isActive ? '#2B6E4E' : '#2C3E50',
                 fontWeight: isActive ? 600 : 400,
-                '--nav-link-color-active': '#EAF5EE',
               },
             }}
           />
@@ -57,36 +88,47 @@ function SidebarNav() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Main shell
+// ---------------------------------------------------------------------------
+
 interface KeebleAppShellProps {
-  children: React.ReactNode;
-  header?: React.ReactNode;
+  children: ReactNode;
 }
 
-export function KeebleAppShell({ children, header }: KeebleAppShellProps) {
+export function KeebleAppShell({ children }: KeebleAppShellProps) {
+  const [headerSlot, setHeaderSlot] = useState<ReactNode>(null);
+
+  const handleSetSlot = useCallback((node: ReactNode) => {
+    setHeaderSlot(node);
+  }, []);
+
   return (
-    <AppShell
-      header={{ height: 60 }}
-      footer={{ height: 56 }}
-      navbar={{ width: 220, breakpoint: 'md', collapsed: { mobile: true } }}
-      styles={{
-        main: { backgroundColor: '#F7F5F0' },
-        navbar: { backgroundColor: 'white', borderRight: '1px solid #D5DBDD' },
-        footer: { backgroundColor: '#F7F5F0' },
-      }}
-    >
-      <AppShell.Header>
-        <AppHeader>{header}</AppHeader>
-      </AppShell.Header>
+    <HeaderSlotCtx.Provider value={handleSetSlot}>
+      <AppShell
+        header={{ height: 60 }}
+        footer={{ height: 56 }}
+        navbar={{ width: 220, breakpoint: 'md', collapsed: { mobile: true } }}
+        styles={{
+          main: { backgroundColor: '#F7F5F0' },
+          navbar: { backgroundColor: 'white', borderRight: '1px solid #D5DBDD' },
+          footer: { backgroundColor: '#F7F5F0' },
+        }}
+      >
+        <AppShell.Header>
+          <AppHeader>{headerSlot}</AppHeader>
+        </AppShell.Header>
 
-      <AppShell.Navbar>
-        <SidebarNav />
-      </AppShell.Navbar>
+        <AppShell.Navbar>
+          <SidebarNav />
+        </AppShell.Navbar>
 
-      <AppShell.Footer hiddenFrom="md">
-        <BottomNav />
-      </AppShell.Footer>
+        <AppShell.Footer hiddenFrom="md">
+          <BottomNav />
+        </AppShell.Footer>
 
-      <AppShell.Main>{children}</AppShell.Main>
-    </AppShell>
+        <AppShell.Main>{children}</AppShell.Main>
+      </AppShell>
+    </HeaderSlotCtx.Provider>
   );
 }

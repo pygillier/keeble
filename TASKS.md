@@ -66,12 +66,12 @@ Shared layout and bottom navigation bar for all authenticated routes.
 
 `/` — browse categories and recent guides.
 
-- [ ] Build `web/src/app/(app)/page.tsx` (Server Component): fetch recent 10 documents + all tags from PocketBase; pass to client components
-- [ ] Build `web/src/components/search/SearchBar.tsx`: controlled input with 300 ms debounce; on mobile renders in the green header; navigates to `/search?q=…` on submit
-- [ ] Build `web/src/components/doc/DocCard.tsx`: white card with emoji icon slot, title, tag pill, relative timestamp; `href` → `/doc/[id]`
-- [ ] Build `web/src/components/ui/TagPill.tsx`: reusable pill; `variant` prop for `green | amber | slate`; maps to design tokens
-- [ ] Build `web/src/components/layout/TagRow.tsx`: horizontal scrollable tag pills for category browsing; click filters docs client-side
-- [ ] Add FAB (`+` button, amber) that navigates to `/edit/new`; hidden on desktop (editor accessible via sidebar)
+- [x] Build `web/src/app/(app)/page.tsx` (Server Component): fetch recent 10 documents + all tags from PocketBase; pass to client components
+- [x] Build `web/src/components/search/SearchBar.tsx`: controlled input with 300 ms debounce; on mobile renders in the green header; navigates to `/search?q=…` on submit
+- [x] Build `web/src/components/doc/DocCard.tsx`: white card with emoji icon slot, title, tag pill, relative timestamp; `href` → `/doc/[id]`
+- [x] Build `web/src/components/ui/TagPill.tsx`: reusable pill; `variant` prop for `green | amber | slate`; maps to design tokens
+- [x] Build `web/src/components/layout/TagRow.tsx`: horizontal scrollable tag pills for category browsing; click filters docs client-side
+- [x] Add FAB (`+` button, amber) that navigates to `/edit/new`; hidden on desktop (editor accessible via sidebar)
 
 ---
 
