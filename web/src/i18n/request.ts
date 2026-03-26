@@ -12,7 +12,7 @@ const messageLoaders: Record<Locale, () => Promise<{ default: Record<string, unk
 };
 
 export default getRequestConfig(async () => {
-  const cookieLocale = cookies().get('keeble_locale')?.value;
+  const cookieLocale = (await cookies()).get('keeble_locale')?.value;
   const locale: Locale =
     cookieLocale && (SUPPORTED_LOCALES as readonly string[]).includes(cookieLocale)
       ? (cookieLocale as Locale)

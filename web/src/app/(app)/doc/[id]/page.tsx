@@ -5,15 +5,16 @@ import { DocViewer } from '@/components/doc/DocViewer';
 import type { Document, Tag } from '@/types';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function DocPage({ params }: Props) {
+  const { id } = await params;
   const pb = getPb();
 
   let doc: Document;
   try {
-    doc = await pb.collection('documents').getOne<Document>(params.id, {
+    doc = await pb.collection('documents').getOne<Document>(id, {
       expand: 'tags',
     });
   } catch {

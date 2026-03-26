@@ -22,7 +22,7 @@ export async function loginAction(
   const pb = new PocketBase(PB_URL);
   try {
     await pb.collection('users').authWithPassword<User>(email, password);
-    cookies().set('pb_auth', pb.authStore.token, COOKIE_OPTS);
+    (await cookies()).set('pb_auth', pb.authStore.token, COOKIE_OPTS);
     return { success: true };
   } catch {
     return { success: false, error: 'Invalid email or password.' };
@@ -30,7 +30,7 @@ export async function loginAction(
 }
 
 export async function logoutAction(): Promise<void> {
-  cookies().delete('pb_auth');
+  (await cookies()).delete('pb_auth');
   redirect('/login');
 }
 
@@ -48,7 +48,7 @@ export async function createUserAction(
       passwordConfirm: password,
     });
     await pb.collection('users').authWithPassword(email, password);
-    cookies().set('pb_auth', pb.authStore.token, COOKIE_OPTS);
+    (await cookies()).set('pb_auth', pb.authStore.token, COOKIE_OPTS);
     return { success: true };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Failed to create account.';
@@ -71,7 +71,7 @@ export async function completeSetupAction(
       return { success: false, error: data.error ?? 'Setup failed.' };
     }
     // Set locale cookie so next-intl picks it up immediately
-    cookies().set('keeble_locale', locale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
+    (await cookies()).set('keeble_locale', locale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
     return { success: true };
   } catch {
     return { success: false, error: 'Could not connect to server.' };
@@ -81,7 +81,7 @@ export async function completeSetupAction(
 export async function importDocumentsAction(
   files: Array<{ name: string; content: string }>,
 ): Promise<{ imported: number; errors: string[] }> {
-  const token = cookies().get('pb_auth')?.value;
+  const token = (await cookies()).get('pb_auth')?.value;
   if (!token) return { imported: 0, errors: ['Not authenticated'] };
 
   const pb = new PocketBase(PB_URL);

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const PB_URL = process.env.POCKETBASE_URL ?? 'http://localhost:8090';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Fetch setup status from PocketBase (migration 3 makes settings publicly listable)

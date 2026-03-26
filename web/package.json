@@ -14,7 +14,7 @@
     "@mantine/hooks": "^8.3.18",
     "@tabler/icons-react": "^3.40.0",
     "gray-matter": "^4.0.3",
-    "next": "14.2.35",
+    "next": "^16.2.1",
     "next-intl": "^4.8.3",
     "pocketbase": "^0.26.8",
     "react": "^18",
