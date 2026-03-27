@@ -1,0 +1,29 @@
+# Dependencies
+web/node_modules
+node_modules
+
+# Next.js build output (rebuilt inside Docker)
+web/.next
+
+# Git
+.git
+.gitignore
+
+# Design files
+design/
+*.html
+
+# PocketBase local data
+pocketbase/pb_data
+
+# Dev/editor config
+.env
+.env.local
+.env*.local
+.vscode
+.idea
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

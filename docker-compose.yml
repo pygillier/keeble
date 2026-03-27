@@ -1,0 +1,16 @@
+services:
+  keeble:
+    build: .
+    image: keeble:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - pb_data:/app/pb_data
+    environment:
+      - POCKETBASE_URL=http://localhost:8090
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=change_me_in_production
+    restart: unless-stopped
+
+volumes:
+  pb_data:
