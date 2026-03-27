@@ -78,7 +78,7 @@ export function ResultCard({ id, title, body, tags = [], query }: ResultCardProp
               </mark>
             ) : (
               <span key={i}>{seg.part}</span>
-            )
+            ),
           )}
         </h3>
 
@@ -107,7 +107,7 @@ export function ResultCard({ id, title, body, tags = [], query }: ResultCardProp
               </mark>
             ) : (
               <span key={i}>{seg.part}</span>
-            )
+            ),
           )}
         </p>
 

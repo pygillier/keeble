@@ -285,11 +285,7 @@ export function TagsView({ tags }: TagsViewProps) {
             <Button variant="subtle" color="gray" onClick={closeModal}>
               {t('cancel')}
             </Button>
-            <Button
-              loading={isPending}
-              onClick={handleSave}
-              style={{ backgroundColor: '#2B6E4E' }}
-            >
+            <Button loading={isPending} onClick={handleSave} style={{ backgroundColor: '#2B6E4E' }}>
               {t('save')}
             </Button>
           </div>
@@ -311,7 +307,14 @@ export function TagsView({ tags }: TagsViewProps) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
             <IconTag size={20} color="#C92A2A" style={{ flexShrink: 0, marginTop: '2px' }} />
-            <p style={{ margin: 0, fontFamily: 'DM Sans, sans-serif', fontSize: '14px', color: '#2C3E50' }}>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: 'DM Sans, sans-serif',
+                fontSize: '14px',
+                color: '#2C3E50',
+              }}
+            >
               {t('deleteConfirm', { name: deleteTarget?.name ?? '' })}
             </p>
           </div>

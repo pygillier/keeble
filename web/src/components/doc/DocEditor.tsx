@@ -131,10 +131,15 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
   }
 
   const saveLabel =
-    saveStatus === 'saving' ? 'Saving…'
-    : saveStatus === 'saved' ? '✓ Saved'
-    : saveStatus === 'error' ? 'Error'
-    : doc ? 'Save' : 'Create';
+    saveStatus === 'saving'
+      ? 'Saving…'
+      : saveStatus === 'saved'
+        ? '✓ Saved'
+        : saveStatus === 'error'
+          ? 'Error'
+          : doc
+            ? 'Save'
+            : 'Create';
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -192,9 +197,7 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
               borderRadius: '8px',
               border: 'none',
               background:
-                saveStatus === 'saved' ? '#2B6E4E'
-                : saveStatus === 'error' ? '#C62828'
-                : '#2B6E4E',
+                saveStatus === 'saved' ? '#2B6E4E' : saveStatus === 'error' ? '#C62828' : '#2B6E4E',
               color: 'white',
               fontSize: '14px',
               fontWeight: 600,
@@ -242,7 +245,14 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
         </div>
 
         {/* Editor pane */}
-        <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRight: '1px solid #D5DBDD' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            borderRight: '1px solid #D5DBDD',
+          }}
+        >
           <div
             style={{
               padding: '8px 16px',
@@ -263,7 +273,9 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
             value={body}
             onChange={(e) => setBody(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={'## Step 1: Getting started\n\nDescribe what to do here.\n\n## Step 2: Next step\n\nContinue…'}
+            placeholder={
+              '## Step 1: Getting started\n\nDescribe what to do here.\n\n## Step 2: Next step\n\nContinue…'
+            }
             spellCheck={false}
             style={{
               flex: 1,
@@ -372,10 +384,7 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
               }
             `}</style>
             {previewHtml ? (
-              <div
-                className="keeble-preview"
-                dangerouslySetInnerHTML={{ __html: previewHtml }}
-              />
+              <div className="keeble-preview" dangerouslySetInnerHTML={{ __html: previewHtml }} />
             ) : (
               <p
                 style={{

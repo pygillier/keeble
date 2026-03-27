@@ -18,9 +18,9 @@ export default async function TagPage({ params }: TagPageProps) {
   // Find the tag by name
   let tag: Tag | null = null;
   try {
-    const results = await pb.collection('tags').getFirstListItem<Tag>(
-      `name = "${decodedName.replace(/"/g, '\\"')}"`,
-    );
+    const results = await pb
+      .collection('tags')
+      .getFirstListItem<Tag>(`name = "${decodedName.replace(/"/g, '\\"')}"`);
     tag = results;
   } catch {
     notFound();

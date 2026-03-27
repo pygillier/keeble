@@ -1,11 +1,11 @@
 :root {
-  --background: #F7F5F0;
-  --foreground: #2C3E50;
+  --background: #f7f5f0;
+  --foreground: #2c3e50;
 }
 
 [data-mantine-color-scheme='dark'] {
   --background: #141517;
-  --foreground: #C1C2C5;
+  --foreground: #c1c2c5;
 }
 
 html,

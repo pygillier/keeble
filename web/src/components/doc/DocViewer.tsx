@@ -43,10 +43,21 @@ export function DocViewer({ doc, steps, tags }: DocViewerProps) {
     fontFamily: 'DM Sans, sans-serif',
   };
 
-  const backLink = <Link href="/" style={backLinkStyle}>← {t('back')}</Link>;
+  const backLink = (
+    <Link href="/" style={backLinkStyle}>
+      ← {t('back')}
+    </Link>
+  );
 
   const headerContent = (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+      }}
+    >
       {backLink}
       {isAuthenticated && (
         <Link href={`/edit/${doc.id}`} aria-label={t('edit')}>
@@ -72,16 +83,15 @@ export function DocViewer({ doc, steps, tags }: DocViewerProps) {
         }}
       >
         {/* Desktop-only: back link + edit button row */}
-        <Box visibleFrom="md" mb={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box
+          visibleFrom="md"
+          mb={12}
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+        >
           {backLink}
           {isAuthenticated && (
             <Link href={`/edit/${doc.id}`}>
-              <Button
-                size="xs"
-                variant="white"
-                color="dark"
-                leftSection={<IconEdit size={14} />}
-              >
+              <Button size="xs" variant="white" color="dark" leftSection={<IconEdit size={14} />}>
                 {t('edit')}
               </Button>
             </Link>
@@ -146,9 +156,7 @@ export function DocViewer({ doc, steps, tags }: DocViewerProps) {
         ))}
       </div>
 
-      {lightboxSrc && (
-        <ImageLightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
-      )}
+      {lightboxSrc && <ImageLightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
     </>
   );
 }

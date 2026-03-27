@@ -82,7 +82,7 @@ function SidebarNav() {
                 root: {
                   borderRadius: '8px',
                   marginBottom: '4px',
-                  color: isActive ? '#2B6E4E' : (isDark ? '#C1C2C5' : '#2C3E50'),
+                  color: isActive ? '#2B6E4E' : isDark ? '#C1C2C5' : '#2C3E50',
                   fontWeight: isActive ? 600 : 400,
                 },
               }}

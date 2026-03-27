@@ -86,7 +86,12 @@ export default function SetupPage() {
 
   return (
     <div
-      style={{ minHeight: '100vh', backgroundColor: '#F7F5F0', display: 'flex', alignItems: 'center' }}
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#F7F5F0',
+        display: 'flex',
+        alignItems: 'center',
+      }}
     >
       <Container size="sm" w="100%" py="xl">
         <Paper shadow="md" p={{ base: 'lg', sm: 'xl' }} radius="md">

@@ -1,0 +1,72 @@
+repos:
+  # General file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^web/node_modules/
+      - id: end-of-file-fixer
+        exclude: ^web/node_modules/
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-json
+        exclude: ^web/node_modules/
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
+  # Secrets detection
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  # Dockerfile linting
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.14.0
+    hooks:
+      - id: hadolint
+        args: ['--ignore', 'DL3008', '--ignore', 'DL3018']
+
+  # YAML linting
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        args: ['-d', '{extends: relaxed, rules: {line-length: {max: 120}}}']
+        exclude: ^web/node_modules/
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.48.0
+    hooks:
+      - id: markdownlint
+        args: ['--disable', 'MD013', 'MD033', '--']
+
+  # Next.js / TypeScript / JavaScript
+  - repo: local
+    hooks:
+      - id: prettier
+        name: Prettier (web)
+        language: system
+        entry: web/node_modules/.bin/prettier --write
+        types_or: [javascript, jsx, ts, tsx, css, json]
+        files: ^web/
+        exclude: ^web/node_modules/
+
+      - id: eslint
+        name: ESLint (web)
+        language: system
+        entry: bash -c 'cd web && node_modules/.bin/eslint --fix "${@#web/}"' --
+        types_or: [javascript, jsx, ts, tsx]
+        files: ^web/
+        exclude: ^web/node_modules/
+
+      - id: tsc
+        name: TypeScript type-check (web)
+        language: system
+        entry: bash -c 'cd web && npx tsc --noEmit'
+        pass_filenames: false
+        types_or: [ts, tsx]
+        exclude: ^web/node_modules/

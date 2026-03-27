@@ -134,7 +134,14 @@ export function FrontmatterSidebar({
       <div>
         <label style={LABEL_STYLE}>Tags</label>
         {allTags.length === 0 ? (
-          <p style={{ margin: 0, fontSize: '13px', color: '#6C838D', fontFamily: 'DM Sans, sans-serif' }}>
+          <p
+            style={{
+              margin: 0,
+              fontSize: '13px',
+              color: '#6C838D',
+              fontFamily: 'DM Sans, sans-serif',
+            }}
+          >
             No tags yet.
           </p>
         ) : (
@@ -165,7 +172,10 @@ export function FrontmatterSidebar({
               onChange={handleFileChange}
             />
             <div
-              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOver(true);
+              }}
               onDragLeave={() => setDragOver(false)}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}

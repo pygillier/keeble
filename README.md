@@ -52,7 +52,7 @@ Navigate to <http://localhost:3000/setup> to create your admin account and confi
 
 ## Project Structure
 
-```
+```txt
 keeble/
 ├── pocketbase/          # PocketBase binary + migrations
 │   ├── pb_migrations/

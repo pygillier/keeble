@@ -55,7 +55,7 @@ export function BottomNav() {
               minHeight: '56px',
               paddingBlock: '8px',
               textDecoration: 'none',
-              color: isActive ? '#2B6E4E' : (isDark ? '#909296' : '#6C838D'),
+              color: isActive ? '#2B6E4E' : isDark ? '#909296' : '#6C838D',
               fontFamily: 'DM Sans, sans-serif',
               fontSize: '11px',
               gap: '3px',
