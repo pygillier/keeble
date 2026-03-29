@@ -1,5 +1,5 @@
 # Stage 1 – build Next.js
-FROM node:20-alpine AS web-builder
+FROM node:25-alpine AS web-builder
 WORKDIR /app/web
 COPY web/package*.json ./
 RUN npm ci
@@ -14,7 +14,7 @@ RUN apk add --no-cache wget unzip && \
     && unzip pocketbase_*.zip -d /pb
 
 # Stage 3 – final image
-FROM node:20-alpine
+FROM node:25-alpine
 RUN apk add --no-cache supervisor
 
 WORKDIR /app
