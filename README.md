@@ -1,5 +1,7 @@
 # Keeble
 
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pygillier/keeble/main.svg)](https://results.pre-commit.ci/latest/github/pygillier/keeble/main)
+
 An open-source family documentation vault. Non-technical family members can find and follow step-by-step guides on mobile (e.g. "reboot the router", "change the washing machine filter"). A desktop view is provided for writing and managing documents.
 
 ## Tech Stack

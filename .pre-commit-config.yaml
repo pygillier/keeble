@@ -1,3 +1,6 @@
+ci:
+  skip: [eslint, tsc] # require full project node_modules; run locally only
+
 repos:
   # General file hygiene
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -49,8 +52,9 @@ repos:
     hooks:
       - id: prettier
         name: Prettier (web)
-        language: system
-        entry: web/node_modules/.bin/prettier --write
+        language: node
+        entry: prettier --write
+        additional_dependencies: ['prettier@^3.8.1']
         types_or: [javascript, jsx, ts, tsx, css, json]
         files: ^web/
         exclude: ^web/node_modules/
