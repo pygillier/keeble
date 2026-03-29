@@ -1,5 +1,5 @@
 ci:
-  skip: [eslint, tsc] # require full project node_modules; run locally only
+  skip: [eslint, tsc, hadolint] # require full project node_modules; run locally only
 
 repos:
   # General file hygiene
