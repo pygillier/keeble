@@ -13,6 +13,7 @@ export interface Tag extends BaseRecord {
 export interface Document extends BaseRecord {
   title: string;
   slug: string;
+  description?: string;
   body: string;
   /** Array of Tag IDs (or expanded Tags when fetched with expand=tags) */
   tags: string[];

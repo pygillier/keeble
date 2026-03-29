@@ -1,17 +1,20 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { TagPill } from '@/components/ui/TagPill';
 import type { Tag } from '@/types';
 
 interface FrontmatterSidebarProps {
   title: string;
   slug: string;
+  description: string;
   selectedTagIds: string[];
   allTags: Tag[];
   docId?: string; // undefined = new doc (image upload disabled)
   onTitleChange: (v: string) => void;
   onSlugChange: (v: string) => void;
+  onDescriptionChange: (v: string) => void;
   onTagsChange: (ids: string[]) => void;
   onImageInsert: (markdown: string) => void;
 }
@@ -43,14 +46,17 @@ const LABEL_STYLE: React.CSSProperties = {
 export function FrontmatterSidebar({
   title,
   slug,
+  description,
   selectedTagIds,
   allTags,
   docId,
   onTitleChange,
   onSlugChange,
+  onDescriptionChange,
   onTagsChange,
   onImageInsert,
 }: FrontmatterSidebarProps) {
+  const t = useTranslations('editor');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -108,19 +114,19 @@ export function FrontmatterSidebar({
     >
       {/* Title */}
       <div>
-        <label style={LABEL_STYLE}>Title</label>
+        <label style={LABEL_STYLE}>{t('title')}</label>
         <input
           type="text"
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
-          placeholder="Guide title…"
+          placeholder={t('titlePlaceholder')}
           style={INPUT_STYLE}
         />
       </div>
 
       {/* Slug */}
       <div>
-        <label style={LABEL_STYLE}>URL slug</label>
+        <label style={LABEL_STYLE}>{t('slug')}</label>
         <input
           type="text"
           value={slug}
@@ -130,9 +136,21 @@ export function FrontmatterSidebar({
         />
       </div>
 
+      {/* Description */}
+      <div>
+        <label style={LABEL_STYLE}>{t('description')}</label>
+        <textarea
+          value={description}
+          onChange={(e) => onDescriptionChange(e.target.value)}
+          placeholder={t('descriptionPlaceholder')}
+          rows={3}
+          style={{ ...INPUT_STYLE, resize: 'vertical', lineHeight: 1.5 }}
+        />
+      </div>
+
       {/* Tags */}
       <div>
-        <label style={LABEL_STYLE}>Tags</label>
+        <label style={LABEL_STYLE}>{t('tags')}</label>
         {allTags.length === 0 ? (
           <p
             style={{
@@ -142,7 +160,7 @@ export function FrontmatterSidebar({
               fontFamily: 'DM Sans, sans-serif',
             }}
           >
-            No tags yet.
+            {t('noTags')}
           </p>
         ) : (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
@@ -161,7 +179,7 @@ export function FrontmatterSidebar({
 
       {/* Image upload */}
       <div>
-        <label style={LABEL_STYLE}>Images</label>
+        <label style={LABEL_STYLE}>{t('images')}</label>
         {docId ? (
           <>
             <input
@@ -197,7 +215,7 @@ export function FrontmatterSidebar({
                   fontFamily: 'DM Sans, sans-serif',
                 }}
               >
-                {uploading ? 'Uploading…' : 'Drag an image here or click to browse'}
+                {uploading ? t('uploading') : t('dragImage')}
               </p>
             </div>
           </>
@@ -211,7 +229,7 @@ export function FrontmatterSidebar({
               fontStyle: 'italic',
             }}
           >
-            Save the document first to enable image upload.
+            {t('saveFirstForImages')}
           </p>
         )}
       </div>

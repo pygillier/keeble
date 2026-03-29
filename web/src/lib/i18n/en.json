@@ -5,7 +5,7 @@
   },
   "nav": {
     "home": "Home",
-    "search": "Search",
+    "docs": "Guides",
     "tags": "Tags",
     "profile": "Profile",
     "darkMode": "Dark mode",
@@ -16,6 +16,11 @@
     "tags": "Tags",
     "noDocuments": "No guides yet.",
     "addFirst": "Add your first guide"
+  },
+  "docs": {
+    "title": "All guides",
+    "count": "{count, plural, =0 {No guides} one {1 guide} other {{count} guides}}",
+    "noDocuments": "No guides yet."
   },
   "search": {
     "placeholder": "Search guides…",
@@ -35,8 +40,15 @@
   },
   "editor": {
     "title": "Title",
+    "titlePlaceholder": "Guide title…",
     "slug": "URL slug",
+    "description": "Description",
+    "descriptionPlaceholder": "Short summary shown in lists…",
     "tags": "Tags",
+    "noTags": "No tags yet.",
+    "images": "Images",
+    "uploading": "Uploading…",
+    "saveFirstForImages": "Save the document first to enable image upload.",
     "content": "Content",
     "preview": "Preview",
     "save": "Save",

@@ -8,7 +8,6 @@ export default async function HomePage() {
   const [docsResult, tags] = await Promise.allSettled([
     pb.collection('documents').getList<Document>(1, 10, {
       sort: '-updated',
-      expand: 'tags',
     }),
     pb.collection('tags').getFullList<Tag>({ sort: 'name' }),
   ]);

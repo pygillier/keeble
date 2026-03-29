@@ -5,6 +5,7 @@ import type { Tag } from '@/types';
 interface DocCardProps {
   id: string;
   title: string;
+  description?: string;
   tags?: Tag[];
   updated: string;
   emoji?: string;
@@ -21,7 +22,14 @@ function relativeTime(iso: string): string {
   return 'just now';
 }
 
-export function DocCard({ id, title, tags = [], updated, emoji = '📄' }: DocCardProps) {
+export function DocCard({
+  id,
+  title,
+  description,
+  tags = [],
+  updated,
+  emoji = '📄',
+}: DocCardProps) {
   return (
     <Link href={`/doc/${id}`} style={{ textDecoration: 'none' }}>
       <article
@@ -63,7 +71,7 @@ export function DocCard({ id, title, tags = [], updated, emoji = '📄' }: DocCa
               color: '#2C3E50',
               fontFamily: 'DM Sans, sans-serif',
               lineHeight: 1.3,
-              marginBottom: '6px',
+              marginBottom: description ? '4px' : '6px',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -71,6 +79,23 @@ export function DocCard({ id, title, tags = [], updated, emoji = '📄' }: DocCa
           >
             {title}
           </h3>
+
+          {description && (
+            <p
+              style={{
+                margin: '0 0 6px',
+                fontSize: '13px',
+                color: '#6C838D',
+                fontFamily: 'DM Sans, sans-serif',
+                lineHeight: 1.4,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {description}
+            </p>
+          )}
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             {tags.slice(0, 2).map((tag) => (

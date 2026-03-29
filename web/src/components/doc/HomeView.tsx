@@ -8,6 +8,7 @@ import { HeaderSlot } from '@/components/layout/AppShell';
 import { SearchBar } from '@/components/search/SearchBar';
 import { TagRow } from '@/components/layout/TagRow';
 import { DocCard } from '@/components/doc/DocCard';
+import { toTagIds } from '@/lib/utils';
 import type { Document, Tag } from '@/types';
 
 interface HomeViewProps {
@@ -19,13 +20,10 @@ export function HomeView({ docs, tags }: HomeViewProps) {
   const t = useTranslations('home');
   const [activeTagId, setActiveTagId] = useState<string | null>(null);
 
+  const tagById = new Map(tags.map((tag) => [tag.id, tag]));
+
   const filtered =
-    activeTagId === null
-      ? docs
-      : docs.filter((d) => {
-          const tagIds = d.expand?.tags?.map((t) => t.id) ?? d.tags;
-          return tagIds.includes(activeTagId);
-        });
+    activeTagId === null ? docs : docs.filter((d) => toTagIds(d.tags).includes(activeTagId));
 
   return (
     <>
@@ -93,7 +91,7 @@ export function HomeView({ docs, tags }: HomeViewProps) {
                   key={doc.id}
                   id={doc.id}
                   title={doc.title}
-                  tags={doc.expand?.tags}
+                  tags={toTagIds(doc.tags).flatMap((id) => tagById.get(id) ?? [])}
                   updated={doc.updated}
                 />
               ))}
