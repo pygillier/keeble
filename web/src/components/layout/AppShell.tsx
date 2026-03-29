@@ -19,6 +19,7 @@ import {
 import { AppHeader } from './Header';
 import { BottomNav } from './BottomNav';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { DesktopFab } from './DesktopFab';
 
 // ---------------------------------------------------------------------------
 // Header slot — lets child pages inject content (e.g. SearchBar) into the
@@ -143,6 +144,8 @@ export function KeebleAppShell({ children }: KeebleAppShellProps) {
         </AppShell.Footer>
 
         <AppShell.Main>{children}</AppShell.Main>
+
+        <DesktopFab />
       </AppShell>
     </HeaderSlotCtx.Provider>
   );
