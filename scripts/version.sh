@@ -100,8 +100,8 @@ echo "Tag '${TAG}' created locally."
 read -rp "Push '${TAG}' to origin? [y/N] " PUSH_CONFIRM
 case "$PUSH_CONFIRM" in
   [yY]|[yY][eE][sS])
-    git push origin "$TAG"
-    echo "Tag '${TAG}' pushed — the release workflow will now run on GitHub Actions."
+    git push origin HEAD --tags
+    echo "Branch and tag '${TAG}' pushed — the release workflow will now run on GitHub Actions."
     ;;
   *)
     echo "Tag created locally only. Push it later with: git push origin ${TAG}"
