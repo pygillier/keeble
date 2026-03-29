@@ -4,9 +4,8 @@ import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { ActionIcon, Button, Modal, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Button, Modal, TextInput } from '@mantine/core';
 import { IconEdit, IconPlus, IconTag, IconTrash } from '@tabler/icons-react';
-import { useAuth } from '@/lib/hooks/useAuth';
 import { createTagAction, deleteTagAction, updateTagAction } from '@/lib/actions/tag';
 import type { Tag } from '@/types';
 
@@ -16,14 +15,14 @@ interface TagWithCount extends Tag {
 
 interface TagsViewProps {
   tags: TagWithCount[];
+  isAdmin: boolean;
 }
 
 const DEFAULT_COLOR = '#2B6E4E';
 
-export function TagsView({ tags }: TagsViewProps) {
+export function TagsView({ tags, isAdmin }: TagsViewProps) {
   const t = useTranslations('tags');
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
   const [isPending, startTransition] = useTransition();
 
   // Modal state: null = closed, 'create' = new tag, Tag object = editing
@@ -109,15 +108,17 @@ export function TagsView({ tags }: TagsViewProps) {
         >
           {t('all')}
         </h2>
-        {isAuthenticated && (
-          <Button
-            size="xs"
-            leftSection={<IconPlus size={14} />}
-            onClick={openCreate}
-            style={{ backgroundColor: '#2B6E4E' }}
-          >
-            {t('newTag')}
-          </Button>
+        {isAdmin && (
+          <Box visibleFrom="md">
+            <Button
+              size="xs"
+              leftSection={<IconPlus size={14} />}
+              onClick={openCreate}
+              style={{ backgroundColor: '#2B6E4E' }}
+            >
+              {t('newTag')}
+            </Button>
+          </Box>
         )}
       </div>
 
@@ -152,7 +153,7 @@ export function TagsView({ tags }: TagsViewProps) {
                   style={{
                     backgroundColor: 'white',
                     borderRadius: '12px',
-                    padding: isAuthenticated ? '12px 12px 40px' : '16px',
+                    padding: isAdmin ? '12px 12px 40px' : '16px',
                     boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
                     display: 'flex',
                     flexDirection: 'column',
@@ -184,9 +185,10 @@ export function TagsView({ tags }: TagsViewProps) {
                 </div>
               </Link>
 
-              {/* Admin controls — positioned over the card bottom */}
-              {isAuthenticated && (
-                <div
+              {/* Admin controls — desktop only, positioned over the card bottom */}
+              {isAdmin && (
+                <Box
+                  visibleFrom="md"
                   style={{
                     position: 'absolute',
                     bottom: '8px',
@@ -219,7 +221,7 @@ export function TagsView({ tags }: TagsViewProps) {
                   >
                     <IconTrash size={14} />
                   </ActionIcon>
-                </div>
+                </Box>
               )}
             </div>
           ))}

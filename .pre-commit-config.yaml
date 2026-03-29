@@ -45,7 +45,7 @@ repos:
     rev: v0.48.0
     hooks:
       - id: markdownlint
-        args: ['--disable', 'MD013', 'MD033', '--']
+        args: ['--disable', 'MD013', 'MD033', '--ignore', 'examples', '--']
 
   # Next.js / TypeScript / JavaScript
   - repo: local

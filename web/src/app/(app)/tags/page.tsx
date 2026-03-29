@@ -1,4 +1,5 @@
 import { getPb } from '@/lib/pb';
+import { getCurrentUserAction } from '@/lib/actions/auth';
 import { TagsView } from '@/components/tags/TagsView';
 import type { Tag, Document } from '@/types';
 
@@ -25,6 +26,6 @@ async function getTagsWithCounts(): Promise<TagWithCount[]> {
 }
 
 export default async function TagsPage() {
-  const tags = await getTagsWithCounts();
-  return <TagsView tags={tags} />;
+  const [tags, user] = await Promise.all([getTagsWithCounts(), getCurrentUserAction()]);
+  return <TagsView tags={tags} isAdmin={user?.is_admin ?? false} />;
 }

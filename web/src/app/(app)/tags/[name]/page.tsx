@@ -29,11 +29,16 @@ export default async function TagPage({ params }: TagPageProps) {
   if (!tag) notFound();
 
   // Fetch all documents that have this tag
-  const docs = await pb.collection('documents').getFullList<Document>({
-    filter: `tags.id ?= "${tag.id}"`,
-    sort: '-updated',
-    expand: 'tags',
-  });
+  let docs: Document[] = [];
+  try {
+    docs = await pb.collection('documents').getFullList<Document>({
+      filter: `tags.id ?= "${tag.id}"`,
+      sort: '-updated',
+      expand: 'tags',
+    });
+  } catch (err) {
+    console.error(`Failed to fetch documents for tag "${tag.id}":`, err);
+  }
 
   return (
     <div style={{ padding: '16px', maxWidth: '720px', margin: '0 auto' }}>
@@ -99,7 +104,7 @@ export default async function TagPage({ params }: TagPageProps) {
           }}
         >
           <div style={{ fontSize: '40px', marginBottom: '12px' }}>📄</div>
-          <p style={{ margin: 0, fontSize: '15px' }}>{t('documents', { count: 0 })}</p>
+          <p style={{ margin: 0, fontSize: '15px' }}>{t('noDocuments')}</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

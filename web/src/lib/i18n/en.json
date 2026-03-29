@@ -49,6 +49,7 @@
   "tags": {
     "all": "All tags",
     "documents": "{count, plural, =0 {No guides} one {1 guide} other {{count} guides}}",
+    "noDocuments": "No guides are tagged with this category yet.",
     "noTags": "No tags yet.",
     "newTag": "New tag",
     "editTag": "Edit tag",

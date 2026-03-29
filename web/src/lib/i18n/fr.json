@@ -49,6 +49,7 @@
   "tags": {
     "all": "Toutes les étiquettes",
     "documents": "{count, plural, =0 {Aucun guide} one {1 guide} other {{count} guides}}",
+    "noDocuments": "Aucun guide n'est encore associé à cette catégorie.",
     "noTags": "Aucune étiquette pour l'instant.",
     "newTag": "Nouvelle étiquette",
     "editTag": "Modifier l'étiquette",
