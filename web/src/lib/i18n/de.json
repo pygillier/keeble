@@ -5,7 +5,7 @@
   },
   "nav": {
     "home": "Startseite",
-    "search": "Suchen",
+    "docs": "Anleitungen",
     "tags": "Kategorien",
     "profile": "Profil",
     "darkMode": "Dunkelmodus",
@@ -16,6 +16,11 @@
     "categories": "Kategorien",
     "noDocuments": "Noch keine Anleitungen.",
     "addFirst": "Erste Anleitung hinzufügen"
+  },
+  "docs": {
+    "title": "Alle Anleitungen",
+    "count": "{count, plural, =0 {Keine Anleitungen} one {1 Anleitung} other {{count} Anleitungen}}",
+    "noDocuments": "Noch keine Anleitungen."
   },
   "search": {
     "placeholder": "Anleitungen suchen…",
@@ -35,8 +40,15 @@
   },
   "editor": {
     "title": "Titel",
+    "titlePlaceholder": "Titel der Anleitung…",
     "slug": "URL-Slug",
+    "description": "Beschreibung",
+    "descriptionPlaceholder": "Kurze Zusammenfassung in Listen…",
     "tags": "Kategorien",
+    "noTags": "Noch keine Kategorien.",
+    "images": "Bilder",
+    "uploading": "Wird hochgeladen…",
+    "saveFirstForImages": "Dokument zuerst speichern, um Bilder hochladen zu können.",
     "content": "Inhalt",
     "preview": "Vorschau",
     "save": "Speichern",

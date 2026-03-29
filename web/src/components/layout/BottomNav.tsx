@@ -5,9 +5,10 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useComputedColorScheme } from '@mantine/core';
 import {
+  IconBook,
+  IconBookFilled,
   IconHome,
   IconHomeFilled,
-  IconSearch,
   IconTag,
   IconTagFilled,
   IconUser,
@@ -16,7 +17,7 @@ import {
 
 const NAV_ITEMS = [
   { href: '/', labelKey: 'home', Icon: IconHome, IconActive: IconHomeFilled },
-  { href: '/search', labelKey: 'search', Icon: IconSearch, IconActive: IconSearch },
+  { href: '/docs', labelKey: 'docs', Icon: IconBook, IconActive: IconBookFilled },
   { href: '/tags', labelKey: 'tags', Icon: IconTag, IconActive: IconTagFilled },
   { href: '/profile', labelKey: 'profile', Icon: IconUser, IconActive: IconUserFilled },
 ] as const;

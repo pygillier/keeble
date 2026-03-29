@@ -24,7 +24,7 @@ function revalidateDoc(id: string) {
 }
 
 export async function createDocAction(
-  data: Pick<Document, 'title' | 'slug' | 'body' | 'tags'>,
+  data: Pick<Document, 'title' | 'slug' | 'description' | 'body' | 'tags'>,
 ): Promise<{ success: true; id: string } | { success: false; error: string }> {
   try {
     const pb = await getAuthenticatedPb();
@@ -38,7 +38,7 @@ export async function createDocAction(
 
 export async function updateDocAction(
   id: string,
-  data: Partial<Pick<Document, 'title' | 'slug' | 'body' | 'tags'>>,
+  data: Partial<Pick<Document, 'title' | 'slug' | 'description' | 'body' | 'tags'>>,
 ): Promise<{ success: true } | { success: false; error: string }> {
   try {
     const pb = await getAuthenticatedPb();

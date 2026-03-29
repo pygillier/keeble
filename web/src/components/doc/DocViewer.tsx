@@ -71,8 +71,10 @@ export function DocViewer({ doc, steps, tags }: DocViewerProps) {
 
   return (
     <>
-      {/* Header slot — back link (+ edit button for admins) in the green app header */}
-      <HeaderSlot>{headerContent}</HeaderSlot>
+      {/* Header slot — back link (+ edit button for admins) in the green app header — mobile only */}
+      <Box hiddenFrom="md">
+        <HeaderSlot>{headerContent}</HeaderSlot>
+      </Box>
 
       {/* Document hero — green band with title + ghost tag pills */}
       <div

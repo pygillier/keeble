@@ -5,7 +5,7 @@
   },
   "nav": {
     "home": "Accueil",
-    "search": "Rechercher",
+    "docs": "Guides",
     "tags": "Étiquettes",
     "profile": "Profil",
     "darkMode": "Mode sombre",
@@ -16,6 +16,11 @@
     "categories": "Étiquettes",
     "noDocuments": "Aucun guide pour l'instant.",
     "addFirst": "Ajouter votre premier guide"
+  },
+  "docs": {
+    "title": "Tous les guides",
+    "count": "{count, plural, =0 {Aucun guide} one {1 guide} other {{count} guides}}",
+    "noDocuments": "Aucun guide pour l'instant."
   },
   "search": {
     "placeholder": "Chercher des guides…",
@@ -35,8 +40,15 @@
   },
   "editor": {
     "title": "Titre",
+    "titlePlaceholder": "Titre du guide…",
     "slug": "Slug URL",
+    "description": "Description",
+    "descriptionPlaceholder": "Résumé court affiché dans les listes…",
     "tags": "Étiquettes",
+    "noTags": "Aucune étiquette pour l'instant.",
+    "images": "Images",
+    "uploading": "Téléversement…",
+    "saveFirstForImages": "Enregistrez le document d'abord pour activer l'ajout d'images.",
     "content": "Contenu",
     "preview": "Aperçu",
     "save": "Enregistrer",

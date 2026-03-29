@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { parseDoc } from '@/lib/markdown';
+import { toTagIds } from '@/lib/utils';
 import { createDocAction, updateDocAction, deleteDocAction } from '@/lib/actions/doc';
 import { FrontmatterSidebar } from './FrontmatterSidebar';
 import type { Document, Tag } from '@/types';
@@ -25,14 +26,16 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
   const router = useRouter();
   const [title, setTitle] = useState(doc?.title ?? '');
   const [slug, setSlug] = useState(doc?.slug ?? '');
+  const [description, setDescription] = useState(doc?.description ?? '');
   const [body, setBody] = useState(doc?.body ?? '');
-  const [selectedTagIds, setSelectedTagIds] = useState<string[]>(doc?.tags ?? []);
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>(toTagIds(doc?.tags));
   const [previewHtml, setPreviewHtml] = useState('');
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   // Track whether user manually edited the slug (stop auto-generation if so)
   const slugManualRef = useRef(!!doc);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const mdFileInputRef = useRef<HTMLInputElement>(null);
 
   // Mobile: redirect away from editor
   useEffect(() => {
@@ -98,6 +101,7 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
     const data = {
       title: title.trim(),
       slug: slug.trim() || slugify(title.trim()),
+      description,
       body,
       tags: selectedTagIds,
     };
@@ -116,6 +120,26 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
     } catch {
       setSaveStatus('error');
       setTimeout(() => setSaveStatus('idle'), 3000);
+    }
+  }
+
+  async function handleMdImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    const text = await file.text();
+    const parsed = await parseDoc(text);
+    if (parsed.frontmatter.title) setTitle(parsed.frontmatter.title as string);
+    if (parsed.frontmatter.slug) {
+      slugManualRef.current = true;
+      setSlug(parsed.frontmatter.slug as string);
+    }
+    if (parsed.frontmatter.description) setDescription(parsed.frontmatter.description as string);
+    setBody(parsed.content);
+    if (Array.isArray(parsed.frontmatter.tags)) {
+      const names = (parsed.frontmatter.tags as string[]).map((t) => t.toLowerCase());
+      const matched = allTags.filter((t) => names.includes(t.name.toLowerCase())).map((t) => t.id);
+      if (matched.length) setSelectedTagIds(matched);
     }
   }
 
@@ -172,6 +196,28 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
         </span>
 
         <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+          <input
+            ref={mdFileInputRef}
+            type="file"
+            accept=".md,text/markdown"
+            style={{ display: 'none' }}
+            onChange={handleMdImport}
+          />
+          <button
+            onClick={() => mdFileInputRef.current?.click()}
+            style={{
+              padding: '8px 14px',
+              borderRadius: '8px',
+              border: '1px solid #D5DBDD',
+              background: 'white',
+              color: '#4A6275',
+              fontSize: '14px',
+              fontFamily: 'DM Sans, sans-serif',
+              cursor: 'pointer',
+            }}
+          >
+            Import .md
+          </button>
           {doc && (
             <button
               onClick={() => setShowDeleteConfirm(true)}
@@ -234,11 +280,13 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
           <FrontmatterSidebar
             title={title}
             slug={slug}
+            description={description}
             selectedTagIds={selectedTagIds}
             allTags={allTags}
             docId={doc?.id}
             onTitleChange={setTitle}
             onSlugChange={handleSlugChange}
+            onDescriptionChange={setDescription}
             onTagsChange={setSelectedTagIds}
             onImageInsert={insertAtCursor}
           />
