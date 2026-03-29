@@ -100,7 +100,9 @@
   "profile": {
     "title": "Profil",
     "language": "Langue",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "roleAdmin": "Administrateur",
+    "roleMember": "Membre"
   },
   "errors": {
     "notFound": "Page introuvable",

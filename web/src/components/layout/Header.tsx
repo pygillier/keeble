@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Avatar, Group } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 
 interface HeaderProps {
@@ -41,17 +40,6 @@ export function AppHeader({ children }: HeaderProps) {
           </Link>
         )}
       </div>
-
-      <Group gap={0}>
-        <Link href="/profile" aria-label="Profile">
-          <Avatar
-            size={36}
-            radius="xl"
-            color="green"
-            style={{ cursor: 'pointer', backgroundColor: '#3D9970' }}
-          />
-        </Link>
-      </Group>
     </header>
   );
 }

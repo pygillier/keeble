@@ -100,7 +100,9 @@
   "profile": {
     "title": "Perfil",
     "language": "Idioma",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "roleAdmin": "Administrador",
+    "roleMember": "Miembro"
   },
   "errors": {
     "notFound": "Página no encontrada",

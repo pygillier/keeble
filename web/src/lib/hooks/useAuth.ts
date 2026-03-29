@@ -9,10 +9,12 @@ export function useAuth() {
   const [user, setUser] = useState<User | null>(
     pb.authStore.isValid ? (pb.authStore.model as unknown as User) : null,
   );
+  const [isAdmin, setIsAdmin] = useState<boolean>(pb.authStore.isSuperuser ?? false);
 
   useEffect(() => {
     const unsubscribe = pb.authStore.onChange(() => {
       setUser(pb.authStore.isValid ? (pb.authStore.model as unknown as User) : null);
+      setIsAdmin(pb.authStore.isSuperuser ?? false);
     });
     return () => unsubscribe();
   }, [pb]);
@@ -28,6 +30,7 @@ export function useAuth() {
 
   return {
     user,
+    isAdmin,
     login,
     logout,
     isAuthenticated: !!user,

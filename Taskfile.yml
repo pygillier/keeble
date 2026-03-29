@@ -1,0 +1,26 @@
+version: "3"
+
+tasks:
+  pb:
+    desc: Start PocketBase server
+    cmds:
+      - ./pocketbase/pocketbase serve --dir ./pocketbase/pb_data
+
+  dev:
+    desc: Start Next.js development server
+    dir: web
+    cmds:
+      - npm run dev
+
+  dev:all:
+    desc: Start PocketBase and Next.js dev server concurrently
+    deps:
+      - task: pb
+      - task: dev
+
+  version:*:
+    desc: "Semantic version helper (args: patch | minor | major | X.Y.Z | --dry-run)"
+    vars:
+      BUMP: '{{index .MATCH 0}}'
+    cmds:
+      - ./scripts/version.sh {{.BUMP}} {{.CLI_ARGS}}

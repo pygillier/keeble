@@ -100,7 +100,9 @@
   "profile": {
     "title": "Profile",
     "language": "Language",
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "roleAdmin": "Administrator",
+    "roleMember": "Member"
   },
   "errors": {
     "notFound": "Page not found",
