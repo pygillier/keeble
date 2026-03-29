@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Box, Text } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
 import { HeaderSlot } from '@/components/layout/AppShell';
 import { SearchBar } from '@/components/search/SearchBar';
 import { TagRow } from '@/components/layout/TagRow';
@@ -81,11 +80,11 @@ export function HomeView({ docs, tags }: HomeViewProps) {
               }}
             >
               <p style={{ margin: 0, fontSize: '15px' }}>{t('noDocuments')}</p>
-              <p style={{ margin: '8px 0 0', fontSize: '14px' }}>
+              <Box visibleFrom="md" component="p" style={{ margin: '8px 0 0', fontSize: '14px' }}>
                 <Link href="/edit/new" style={{ color: '#2B6E4E' }}>
                   {t('addFirst')}
                 </Link>
-              </p>
+              </Box>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -102,32 +101,6 @@ export function HomeView({ docs, tags }: HomeViewProps) {
           )}
         </section>
       </div>
-
-      {/* FAB — hidden on desktop (editor accessible via sidebar) */}
-      <Box
-        hiddenFrom="md"
-        component={Link}
-        href="/edit/new"
-        aria-label={t('addFirst')}
-        style={{
-          position: 'fixed',
-          bottom: '72px', // above the BottomNav (56px) + 16px gap
-          right: '20px',
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          backgroundColor: '#D97B4F',
-          color: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(217,123,79,0.45)',
-          textDecoration: 'none',
-          zIndex: 100,
-        }}
-      >
-        <IconPlus size={26} stroke={2.5} />
-      </Box>
     </>
   );
 }

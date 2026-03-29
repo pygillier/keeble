@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { Avatar, Badge, Button, Divider, Select, Stack, Text, Title } from '@mantine/core';
-import { AppHeader } from '@/components/layout/Header';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { setLocaleAction } from '@/lib/actions/auth';
 
@@ -39,46 +38,43 @@ export default function ProfilePage() {
   }
 
   return (
-    <>
-      <AppHeader />
-      <Stack p="lg" gap="lg">
-        <Stack align="center" gap="sm" pt="md">
-          <Avatar size={72} radius="xl" color="green" style={{ backgroundColor: '#3D9970' }}>
-            {mounted && user?.name ? user.name[0].toUpperCase() : '?'}
-          </Avatar>
-          {mounted && user?.name && (
-            <Title order={3} style={{ fontFamily: 'Lora, serif' }}>
-              {user.name}
-            </Title>
-          )}
-          {mounted && user?.email && (
-            <Text c="dimmed" size="sm">
-              {user.email}
-            </Text>
-          )}
-          {mounted && (
-            <Badge color={isAdmin ? 'green' : 'gray'} variant="light">
-              {isAdmin ? t('roleAdmin') : t('roleMember')}
-            </Badge>
-          )}
-        </Stack>
-
-        <Divider />
-
-        <Select
-          label={t('language')}
-          data={LOCALE_OPTIONS}
-          value={mounted ? locale : null}
-          onChange={handleLocaleChange}
-          allowDeselect={false}
-        />
-
-        <Divider />
-
-        <Button variant="subtle" color="red" onClick={handleLogout} fullWidth>
-          {tAuth('logout')}
-        </Button>
+    <Stack p="lg" gap="lg">
+      <Stack align="center" gap="sm" pt="md">
+        <Avatar size={72} radius="xl" color="green" style={{ backgroundColor: '#3D9970' }}>
+          {mounted && user?.name ? user.name[0].toUpperCase() : '?'}
+        </Avatar>
+        {mounted && user?.name && (
+          <Title order={3} style={{ fontFamily: 'Lora, serif' }}>
+            {user.name}
+          </Title>
+        )}
+        {mounted && user?.email && (
+          <Text c="dimmed" size="sm">
+            {user.email}
+          </Text>
+        )}
+        {mounted && (
+          <Badge color={isAdmin ? 'green' : 'gray'} variant="light">
+            {isAdmin ? t('roleAdmin') : t('roleMember')}
+          </Badge>
+        )}
       </Stack>
-    </>
+
+      <Divider />
+
+      <Select
+        label={t('language')}
+        data={LOCALE_OPTIONS}
+        value={mounted ? locale : null}
+        onChange={handleLocaleChange}
+        allowDeselect={false}
+      />
+
+      <Divider />
+
+      <Button variant="subtle" color="red" onClick={handleLogout} fullWidth>
+        {tAuth('logout')}
+      </Button>
+    </Stack>
   );
 }
