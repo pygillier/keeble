@@ -21,8 +21,13 @@ export async function loginAction(
 ): Promise<{ success: boolean; error?: string }> {
   const pb = new PocketBase(PB_URL);
   try {
-    await pb.collection('users').authWithPassword<User>(email, password);
-    (await cookies()).set('pb_auth', pb.authStore.token, COOKIE_OPTS);
+    const { record } = await pb.collection('users').authWithPassword<User>(email, password);
+    const jar = await cookies();
+    jar.set('pb_auth', pb.authStore.token, COOKIE_OPTS);
+    // Restore the user's saved locale preference if they have one
+    if (record.locale) {
+      jar.set('keeble_locale', record.locale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
+    }
     return { success: true };
   } catch {
     return { success: false, error: 'Invalid email or password.' };
@@ -32,6 +37,28 @@ export async function loginAction(
 export async function logoutAction(): Promise<void> {
   (await cookies()).delete('pb_auth');
   redirect('/login');
+}
+
+const SUPPORTED_LOCALES = ['en', 'fr', 'de', 'es'];
+
+export async function setLocaleAction(locale: string): Promise<void> {
+  if (!SUPPORTED_LOCALES.includes(locale)) return;
+
+  const jar = await cookies();
+  jar.set('keeble_locale', locale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
+
+  // Persist to the user record so the preference survives new devices/sessions
+  const token = jar.get('pb_auth')?.value;
+  if (token) {
+    try {
+      const pb = new PocketBase(PB_URL);
+      pb.authStore.save(token, null);
+      const { record } = await pb.collection('users').authRefresh<User>();
+      await pb.collection('users').update(record.id, { locale });
+    } catch {
+      // Non-fatal: cookie is already set
+    }
+  }
 }
 
 export async function createUserAction(
@@ -72,9 +99,36 @@ export async function completeSetupAction(
     }
     // Set locale cookie so next-intl picks it up immediately
     (await cookies()).set('keeble_locale', locale, { path: '/', maxAge: 60 * 60 * 24 * 365 });
+
+    // Persist locale preference on the user record
+    const token = (await cookies()).get('pb_auth')?.value;
+    if (token) {
+      try {
+        const pb = new PocketBase(PB_URL);
+        pb.authStore.save(token, null);
+        const { record } = await pb.collection('users').authRefresh<User>();
+        await pb.collection('users').update(record.id, { locale });
+      } catch {
+        // Non-fatal
+      }
+    }
+
     return { success: true };
   } catch {
     return { success: false, error: 'Could not connect to server.' };
+  }
+}
+
+export async function getCurrentUserAction(): Promise<User | null> {
+  const token = (await cookies()).get('pb_auth')?.value;
+  if (!token) return null;
+  try {
+    const pb = new PocketBase(PB_URL);
+    pb.authStore.save(token, null);
+    const { record } = await pb.collection('users').authRefresh<User>();
+    return record;
+  } catch {
+    return null;
   }
 }
 

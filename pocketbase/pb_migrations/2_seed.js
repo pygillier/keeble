@@ -1,8 +1,7 @@
 /// <reference path="../pb_data/types.d.ts" />
 migrate(
-  (db) => {
-    const dao = new Dao(db);
-    const collection = dao.findCollectionByNameOrId("settings");
+  (app) => {
+    const collection = app.findCollectionByNameOrId("settings");
 
     const record = new Record(collection, {
       app_name: "Keeble",
@@ -10,9 +9,9 @@ migrate(
       allow_registration: false,
       setup_completed: false,
     });
-    dao.saveRecord(record);
+    app.save(record);
   },
-  (db) => {
-    db.newQuery("DELETE FROM settings").execute();
+  (app) => {
+    app.db().newQuery("DELETE FROM settings").execute();
   },
 );

@@ -1,0 +1,80 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
+import { Avatar, Badge, Button, Divider, Select, Stack, Text, Title } from '@mantine/core';
+import { getCurrentUserAction, logoutAction, setLocaleAction } from '@/lib/actions/auth';
+import type { User } from '@/types';
+
+const LOCALE_OPTIONS = [
+  { value: 'en', label: 'English' },
+  { value: 'fr', label: 'Français' },
+  { value: 'de', label: 'Deutsch' },
+  { value: 'es', label: 'Español' },
+];
+
+export default function ProfilePage() {
+  const t = useTranslations('profile');
+  const tAuth = useTranslations('auth');
+  const router = useRouter();
+  const locale = useLocale();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    getCurrentUserAction().then(setUser);
+  }, []);
+
+  async function handleLogout() {
+    await logoutAction();
+  }
+
+  async function handleLocaleChange(value: string | null) {
+    if (!value || value === locale) return;
+    await setLocaleAction(value);
+    router.refresh();
+  }
+
+  const isAdmin = user?.is_admin ?? false;
+
+  return (
+    <Stack p="lg" gap="lg">
+      <Stack align="center" gap="sm" pt="md">
+        <Avatar size={72} radius="xl" color="green" style={{ backgroundColor: '#3D9970' }}>
+          {user?.name ? user.name[0].toUpperCase() : '?'}
+        </Avatar>
+        {user?.name && (
+          <Title order={3} style={{ fontFamily: 'Lora, serif' }}>
+            {user.name}
+          </Title>
+        )}
+        {user?.email && (
+          <Text c="dimmed" size="sm">
+            {user.email}
+          </Text>
+        )}
+        {user && (
+          <Badge color={isAdmin ? 'green' : 'gray'} variant="light">
+            {isAdmin ? t('roleAdmin') : t('roleMember')}
+          </Badge>
+        )}
+      </Stack>
+
+      <Divider />
+
+      <Select
+        label={t('language')}
+        data={LOCALE_OPTIONS}
+        value={locale}
+        onChange={handleLocaleChange}
+        allowDeselect={false}
+      />
+
+      <Divider />
+
+      <Button variant="subtle" color="red" onClick={handleLogout} fullWidth>
+        {tAuth('logout')}
+      </Button>
+    </Stack>
+  );
+}

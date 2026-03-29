@@ -37,4 +37,6 @@ export interface User extends BaseRecord {
   email: string;
   name: string;
   avatar: string;
+  is_admin: boolean;
+  locale: string;
 }

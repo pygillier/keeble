@@ -6,14 +6,14 @@
   "nav": {
     "home": "Accueil",
     "search": "Rechercher",
-    "tags": "Catégories",
+    "tags": "Étiquettes",
     "profile": "Profil",
     "darkMode": "Mode sombre",
     "lightMode": "Mode clair"
   },
   "home": {
     "recent": "Guides récents",
-    "categories": "Catégories",
+    "categories": "Étiquettes",
     "noDocuments": "Aucun guide pour l'instant.",
     "addFirst": "Ajouter votre premier guide"
   },
@@ -36,7 +36,7 @@
   "editor": {
     "title": "Titre",
     "slug": "Slug URL",
-    "tags": "Catégories",
+    "tags": "Étiquettes",
     "content": "Contenu",
     "preview": "Aperçu",
     "save": "Enregistrer",
@@ -47,13 +47,13 @@
     "dragImage": "Déposez une image ici ou cliquez pour parcourir"
   },
   "tags": {
-    "all": "Toutes les catégories",
+    "all": "Toutes les étiquettes",
     "documents": "{count, plural, =0 {Aucun guide} one {1 guide} other {{count} guides}}",
-    "noTags": "Aucune catégorie pour l'instant.",
-    "newTag": "Nouvelle catégorie",
-    "editTag": "Modifier la catégorie",
-    "deleteTag": "Supprimer la catégorie",
-    "deleteConfirm": "Supprimer la catégorie « {name} » ? Elle sera retirée de tous les guides.",
+    "noTags": "Aucune étiquette pour l'instant.",
+    "newTag": "Nouvelle étiquette",
+    "editTag": "Modifier l'étiquette",
+    "deleteTag": "Supprimer l'étiquette",
+    "deleteConfirm": "Supprimer l'étiquette « {name} » ? Elle sera retirée de tous les guides.",
     "deleteConfirmButton": "Supprimer",
     "cancel": "Annuler",
     "save": "Enregistrer",
@@ -100,7 +100,9 @@
   "profile": {
     "title": "Profil",
     "language": "Langue",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "roleAdmin": "Administrateur",
+    "roleMember": "Membre"
   },
   "errors": {
     "notFound": "Page introuvable",

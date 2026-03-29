@@ -6,13 +6,16 @@ import { getPb } from '@/lib/pb';
 
 export function useAuth() {
   const pb = getPb();
-  const [user, setUser] = useState<User | null>(
-    pb.authStore.isValid ? (pb.authStore.model as unknown as User) : null,
-  );
+  const authRecord = () => (pb.authStore.isValid ? (pb.authStore.record as unknown as User) : null);
+
+  const [user, setUser] = useState<User | null>(authRecord);
+  const [isAdmin, setIsAdmin] = useState<boolean>(authRecord()?.is_admin ?? false);
 
   useEffect(() => {
     const unsubscribe = pb.authStore.onChange(() => {
-      setUser(pb.authStore.isValid ? (pb.authStore.model as unknown as User) : null);
+      const record = authRecord();
+      setUser(record);
+      setIsAdmin(record?.is_admin ?? false);
     });
     return () => unsubscribe();
   }, [pb]);
@@ -28,6 +31,7 @@ export function useAuth() {
 
   return {
     user,
+    isAdmin,
     login,
     logout,
     isAuthenticated: !!user,

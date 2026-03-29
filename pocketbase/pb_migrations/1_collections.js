@@ -1,27 +1,23 @@
 /// <reference path="../pb_data/types.d.ts" />
 migrate(
-  (db) => {
-    const dao = new Dao(db);
-
+  (app) => {
     // ── 1. tags ────────────────────────────────────────────────────────────────
     const tags = new Collection({
       name: "tags",
       type: "base",
-      system: false,
-      schema: [
+      fields: [
         {
           name: "name",
           type: "text",
           required: true,
-          unique: false,
-          options: { min: 1, max: null, pattern: "" },
+          min: 1,
         },
         {
           name: "color",
           type: "text",
           required: false,
-          unique: false,
-          options: { min: null, max: 7, pattern: "^#[0-9A-Fa-f]{6}$" },
+          max: 7,
+          pattern: "^#[0-9A-Fa-f]{6}$",
         },
       ],
       indexes: ["CREATE UNIQUE INDEX idx_tags_name ON tags (name)"],
@@ -32,73 +28,56 @@ migrate(
       updateRule: null,
       deleteRule: null,
     });
-    dao.saveCollection(tags);
+    app.save(tags);
 
     // ── 2. documents ───────────────────────────────────────────────────────────
     const documents = new Collection({
       name: "documents",
       type: "base",
-      system: false,
-      schema: [
+      fields: [
         {
           name: "title",
           type: "text",
           required: true,
-          unique: false,
-          options: { min: 1, max: null, pattern: "" },
+          min: 1,
         },
         {
           name: "slug",
           type: "text",
           required: true,
-          unique: false,
-          options: { min: 1, max: null, pattern: "" },
+          min: 1,
         },
         {
           name: "body",
           type: "text",
           required: false,
-          unique: false,
-          options: { min: null, max: null, pattern: "" },
         },
         {
           name: "tags",
           type: "relation",
           required: false,
-          unique: false,
-          options: {
-            collectionId: tags.id,
-            cascadeDelete: false,
-            minSelect: null,
-            maxSelect: null,
-            displayFields: ["name"],
-          },
+          collectionId: tags.id,
+          cascadeDelete: false,
+          minSelect: null,
+          maxSelect: null,
         },
         {
           name: "images",
           type: "file",
           required: false,
-          unique: false,
-          options: {
-            maxSelect: 10,
-            maxSize: 5242880,
-            mimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
-            thumbs: ["400x0"],
-            protected: false,
-          },
+          maxSelect: 10,
+          maxSize: 5242880,
+          mimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+          thumbs: ["400x0"],
         },
         {
           name: "author",
           type: "relation",
           required: false,
-          unique: false,
-          options: {
-            collectionId: "_pb_users_auth_",
-            cascadeDelete: false,
-            minSelect: null,
-            maxSelect: 1,
-            displayFields: ["email"],
-          },
+          collectionId: "_pb_users_auth_",
+          cascadeDelete: false,
+          minSelect: null,
+          maxSelect: 1,
         },
       ],
       indexes: ["CREATE UNIQUE INDEX idx_documents_slug ON documents (slug)"],
@@ -109,41 +88,35 @@ migrate(
       updateRule: '@request.auth.id != ""',
       deleteRule: '@request.auth.id != ""',
     });
-    dao.saveCollection(documents);
+    app.save(documents);
 
     // ── 3. settings (singleton) ────────────────────────────────────────────────
     const settings = new Collection({
       name: "settings",
       type: "base",
-      system: false,
-      schema: [
+      fields: [
         {
           name: "app_name",
           type: "text",
           required: true,
-          unique: false,
-          options: { min: 1, max: null, pattern: "" },
+          min: 1,
         },
         {
           name: "default_locale",
           type: "text",
           required: true,
-          unique: false,
-          options: { min: 2, max: 10, pattern: "" },
+          min: 2,
+          max: 10,
         },
         {
           name: "allow_registration",
           type: "bool",
           required: false,
-          unique: false,
-          options: {},
         },
         {
           name: "setup_completed",
           type: "bool",
           required: false,
-          unique: false,
-          options: {},
         },
       ],
       indexes: [],
@@ -154,15 +127,14 @@ migrate(
       updateRule: null,
       deleteRule: null,
     });
-    dao.saveCollection(settings);
+    app.save(settings);
   },
-  (db) => {
+  (app) => {
     // Down: remove all three collections in reverse dependency order
-    const dao = new Dao(db);
     for (const name of ["documents", "tags", "settings"]) {
       try {
-        const col = dao.findCollectionByNameOrId(name);
-        dao.deleteCollection(col);
+        const col = app.findCollectionByNameOrId(name);
+        app.delete(col);
       } catch (_) {
         // collection may not exist — ignore
       }
