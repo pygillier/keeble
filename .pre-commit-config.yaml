@@ -1,5 +1,5 @@
 ci:
-  skip: [eslint, tsc] # require full project node_modules; run locally only
+  skip: [eslint, tsc, hadolint] # require full project node_modules; run locally only
 
 repos:
   # General file hygiene
@@ -29,7 +29,7 @@ repos:
   - repo: https://github.com/hadolint/hadolint
     rev: v2.14.0
     hooks:
-      - id: hadolint-docker
+      - id: hadolint
         args: ['--ignore', 'DL3008', '--ignore', 'DL3018']
 
   # YAML linting
