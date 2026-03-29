@@ -2,16 +2,25 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { Avatar, Badge, Button, Divider, Stack, Text, Title } from '@mantine/core';
+import { useLocale, useTranslations } from 'next-intl';
+import { Avatar, Badge, Button, Divider, Select, Stack, Text, Title } from '@mantine/core';
 import { AppHeader } from '@/components/layout/Header';
 import { useAuth } from '@/lib/hooks/useAuth';
+import { setLocaleAction } from '@/lib/actions/auth';
+
+const LOCALE_OPTIONS = [
+  { value: 'en', label: 'English' },
+  { value: 'fr', label: 'Français' },
+  { value: 'de', label: 'Deutsch' },
+  { value: 'es', label: 'Español' },
+];
 
 export default function ProfilePage() {
   const t = useTranslations('profile');
   const tAuth = useTranslations('auth');
   const { user, isAdmin, logout } = useAuth();
   const router = useRouter();
+  const locale = useLocale();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,6 +30,12 @@ export default function ProfilePage() {
   function handleLogout() {
     logout();
     router.push('/login');
+  }
+
+  async function handleLocaleChange(value: string | null) {
+    if (!value || value === locale) return;
+    await setLocaleAction(value);
+    router.refresh();
   }
 
   return (
@@ -47,6 +62,16 @@ export default function ProfilePage() {
             </Badge>
           )}
         </Stack>
+
+        <Divider />
+
+        <Select
+          label={t('language')}
+          data={LOCALE_OPTIONS}
+          value={mounted ? locale : null}
+          onChange={handleLocaleChange}
+          allowDeselect={false}
+        />
 
         <Divider />
 
