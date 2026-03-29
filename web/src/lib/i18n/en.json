@@ -13,7 +13,7 @@
   },
   "home": {
     "recent": "Recent guides",
-    "categories": "Categories",
+    "tags": "Tags",
     "noDocuments": "No guides yet.",
     "addFirst": "Add your first guide"
   },
@@ -47,9 +47,9 @@
     "dragImage": "Drag an image here or click to browse"
   },
   "tags": {
-    "all": "All categories",
+    "all": "All tags",
     "documents": "{count, plural, =0 {No guides} one {1 guide} other {{count} guides}}",
-    "noTags": "No categories yet.",
+    "noTags": "No tags yet.",
     "newTag": "New tag",
     "editTag": "Edit tag",
     "deleteTag": "Delete tag",
