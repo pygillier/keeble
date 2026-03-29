@@ -49,6 +49,7 @@
   "tags": {
     "all": "Alle Kategorien",
     "documents": "{count, plural, =0 {Keine Anleitungen} one {1 Anleitung} other {{count} Anleitungen}}",
+    "noDocuments": "Noch keine Anleitungen in dieser Kategorie.",
     "noTags": "Noch keine Kategorien.",
     "newTag": "Neue Kategorie",
     "editTag": "Kategorie bearbeiten",

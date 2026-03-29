@@ -49,6 +49,7 @@
   "tags": {
     "all": "Todas las categorías",
     "documents": "{count, plural, =0 {Sin guías} one {1 guía} other {{count} guías}}",
+    "noDocuments": "Todavía no hay guías en esta categoría.",
     "noTags": "Todavía no hay categorías.",
     "newTag": "Nueva categoría",
     "editTag": "Editar categoría",

@@ -52,7 +52,7 @@ export function HomeView({ docs, tags }: HomeViewProps) {
               mb={10}
               style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}
             >
-              {t('categories')}
+              {t('tags')}
             </Text>
             <TagRow tags={tags} activeTagId={activeTagId} onSelect={setActiveTagId} />
           </section>
