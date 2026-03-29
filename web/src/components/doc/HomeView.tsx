@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Box, Text } from '@mantine/core';
-import { HeaderSlot } from '@/components/layout/AppShell';
 import { SearchBar } from '@/components/search/SearchBar';
 import { TagRow } from '@/components/layout/TagRow';
 import { DocCard } from '@/components/doc/DocCard';
@@ -27,13 +26,6 @@ export function HomeView({ docs, tags }: HomeViewProps) {
 
   return (
     <>
-      {/* Inject compact SearchBar into the green header — mobile only */}
-      <Box hiddenFrom="md">
-        <HeaderSlot>
-          <SearchBar compact />
-        </HeaderSlot>
-      </Box>
-
       <div style={{ padding: '20px 16px', maxWidth: '760px', margin: '0 auto' }}>
         {/* Desktop search bar */}
         <Box visibleFrom="md" mb="lg">
