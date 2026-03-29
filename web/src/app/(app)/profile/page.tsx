@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { Avatar, Badge, Button, Divider, Select, Stack, Text, Title } from '@mantine/core';
-import { useAuth } from '@/lib/hooks/useAuth';
-import { setLocaleAction } from '@/lib/actions/auth';
+import { getCurrentUserAction, logoutAction, setLocaleAction } from '@/lib/actions/auth';
+import type { User } from '@/types';
 
 const LOCALE_OPTIONS = [
   { value: 'en', label: 'English' },
@@ -17,18 +17,16 @@ const LOCALE_OPTIONS = [
 export default function ProfilePage() {
   const t = useTranslations('profile');
   const tAuth = useTranslations('auth');
-  const { user, isAdmin, logout } = useAuth();
   const router = useRouter();
   const locale = useLocale();
-  const [mounted, setMounted] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    setMounted(true);
+    getCurrentUserAction().then(setUser);
   }, []);
 
-  function handleLogout() {
-    logout();
-    router.push('/login');
+  async function handleLogout() {
+    await logoutAction();
   }
 
   async function handleLocaleChange(value: string | null) {
@@ -37,23 +35,25 @@ export default function ProfilePage() {
     router.refresh();
   }
 
+  const isAdmin = user?.is_admin ?? false;
+
   return (
     <Stack p="lg" gap="lg">
       <Stack align="center" gap="sm" pt="md">
         <Avatar size={72} radius="xl" color="green" style={{ backgroundColor: '#3D9970' }}>
-          {mounted && user?.name ? user.name[0].toUpperCase() : '?'}
+          {user?.name ? user.name[0].toUpperCase() : '?'}
         </Avatar>
-        {mounted && user?.name && (
+        {user?.name && (
           <Title order={3} style={{ fontFamily: 'Lora, serif' }}>
             {user.name}
           </Title>
         )}
-        {mounted && user?.email && (
+        {user?.email && (
           <Text c="dimmed" size="sm">
             {user.email}
           </Text>
         )}
-        {mounted && (
+        {user && (
           <Badge color={isAdmin ? 'green' : 'gray'} variant="light">
             {isAdmin ? t('roleAdmin') : t('roleMember')}
           </Badge>
@@ -65,7 +65,7 @@ export default function ProfilePage() {
       <Select
         label={t('language')}
         data={LOCALE_OPTIONS}
-        value={mounted ? locale : null}
+        value={locale}
         onChange={handleLocaleChange}
         allowDeselect={false}
       />

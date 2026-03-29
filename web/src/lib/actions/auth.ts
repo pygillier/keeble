@@ -119,6 +119,19 @@ export async function completeSetupAction(
   }
 }
 
+export async function getCurrentUserAction(): Promise<User | null> {
+  const token = (await cookies()).get('pb_auth')?.value;
+  if (!token) return null;
+  try {
+    const pb = new PocketBase(PB_URL);
+    pb.authStore.save(token, null);
+    const { record } = await pb.collection('users').authRefresh<User>();
+    return record;
+  } catch {
+    return null;
+  }
+}
+
 export async function importDocumentsAction(
   files: Array<{ name: string; content: string }>,
 ): Promise<{ imported: number; errors: string[] }> {
