@@ -1,0 +1,5 @@
+- [Home](/)
+- [User Guide](/guide/searching)
+- [Admin Guide](/admin/setup)
+- [Developer Guide](/dev/getting-started)
+- [GitHub](https://github.com/pygillier/keeble)
