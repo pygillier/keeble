@@ -13,7 +13,7 @@
   },
   "home": {
     "recent": "Guides récents",
-    "categories": "Étiquettes",
+    "tags": "Étiquettes",
     "noDocuments": "Aucun guide pour l'instant.",
     "addFirst": "Ajouter votre premier guide"
   },

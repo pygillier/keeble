@@ -9,9 +9,14 @@ interface SearchBarProps {
   /** When true, renders a compact white-on-green style for use in the header */
   compact?: boolean;
   initialValue?: string;
+  autoFocus?: boolean;
 }
 
-export function SearchBar({ compact = false, initialValue = '' }: SearchBarProps) {
+export function SearchBar({
+  compact = false,
+  initialValue = '',
+  autoFocus = false,
+}: SearchBarProps) {
   const t = useTranslations('search');
   const router = useRouter();
   const [value, setValue] = useState(initialValue);
@@ -61,6 +66,7 @@ export function SearchBar({ compact = false, initialValue = '' }: SearchBarProps
             onChange={(e) => setValue(e.target.value)}
             placeholder={t('placeholder')}
             aria-label={t('placeholder')}
+            autoFocus={autoFocus}
             style={{
               flex: 1,
               border: 'none',
