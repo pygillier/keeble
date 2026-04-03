@@ -36,6 +36,7 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
   const slugManualRef = useRef(!!doc);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mdFileInputRef = useRef<HTMLInputElement>(null);
+  const savedSelectionRef = useRef<{ start: number; end: number } | null>(null);
 
   // Mobile: redirect away from editor
   useEffect(() => {
@@ -80,14 +81,24 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
     });
   }
 
-  // Insert markdown at textarea cursor (called after image upload)
+  // Save cursor position when textarea loses focus (e.g. user clicks the image drop zone)
+  function handleTextareaBlur(e: React.FocusEvent<HTMLTextAreaElement>) {
+    savedSelectionRef.current = {
+      start: e.target.selectionStart,
+      end: e.target.selectionEnd,
+    };
+  }
+
+  // Insert markdown at the last known cursor position, or at end of file
   function insertAtCursor(text: string) {
     const el = textareaRef.current;
     if (!el) return;
-    const start = el.selectionStart;
-    const end = el.selectionEnd;
+    const saved = savedSelectionRef.current;
+    const start = saved?.start ?? body.length;
+    const end = saved?.end ?? body.length;
     const next = body.slice(0, start) + text + body.slice(end);
     setBody(next);
+    savedSelectionRef.current = null;
     requestAnimationFrame(() => {
       el.selectionStart = start + text.length;
       el.selectionEnd = start + text.length;
@@ -321,6 +332,7 @@ export function DocEditor({ doc, allTags }: DocEditorProps) {
             value={body}
             onChange={(e) => setBody(e.target.value)}
             onKeyDown={handleKeyDown}
+            onBlur={handleTextareaBlur}
             placeholder={
               '## Step 1: Getting started\n\nDescribe what to do here.\n\n## Step 2: Next step\n\nContinue…'
             }

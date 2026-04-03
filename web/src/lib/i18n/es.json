@@ -56,7 +56,9 @@
     "saved": "Guardado",
     "newDocument": "Nueva guía",
     "uploadImage": "Subir imagen",
-    "dragImage": "Arrastre una imagen aquí o haga clic para explorar"
+    "dragImage": "Arrastre una imagen aquí o haga clic para explorar",
+    "imageSizeHint": "Máx. 3 MB por imagen",
+    "imageTooLarge": "La imagen supera el límite de 3 MB y no se ha subido."
   },
   "tags": {
     "all": "Todas las categorías",

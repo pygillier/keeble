@@ -121,7 +121,9 @@ export function StepAccordion({
           transition: 'max-height 0.35s ease',
         }}
       >
+        <style>{`.step-content img { max-width: 100%; height: auto; }`}</style>
         <div
+          className="step-content"
           style={{ padding: '0 16px 8px', fontSize: '17px', lineHeight: 1.7, color: '#2C3E50' }}
           // Images in the rendered HTML are intercepted for the lightbox
           onClick={handleContentClick}

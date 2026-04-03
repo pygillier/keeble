@@ -56,7 +56,9 @@
     "saved": "Enregistré",
     "newDocument": "Nouveau guide",
     "uploadImage": "Ajouter une image",
-    "dragImage": "Déposez une image ici ou cliquez pour parcourir"
+    "dragImage": "Déposez une image ici ou cliquez pour parcourir",
+    "imageSizeHint": "3 Mo max par image",
+    "imageTooLarge": "L'image dépasse la limite de 3 Mo et n'a pas été téléversée."
   },
   "tags": {
     "all": "Toutes les étiquettes",

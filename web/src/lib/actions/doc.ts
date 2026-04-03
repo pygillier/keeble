@@ -62,3 +62,20 @@ export async function deleteDocAction(
     return { success: false, error: err instanceof Error ? err.message : 'Delete failed' };
   }
 }
+
+export async function uploadImageAction(
+  docId: string,
+  formData: FormData,
+): Promise<{ success: true; url: string } | { success: false; error: string }> {
+  try {
+    const pb = await getAuthenticatedPb();
+    const updated = await pb.collection('documents').update<Document>(docId, formData);
+    const images = updated.images as string[];
+    const filename = images[images.length - 1];
+    const url = `/api/images/documents/${updated.id}/${filename}`;
+    revalidateDoc(docId);
+    return { success: true, url };
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : 'Upload failed' };
+  }
+}
