@@ -56,7 +56,9 @@
     "saved": "Saved",
     "newDocument": "New guide",
     "uploadImage": "Upload image",
-    "dragImage": "Drag an image here or click to browse"
+    "dragImage": "Drag an image here or click to browse",
+    "imageSizeHint": "Max 3 MB per image",
+    "imageTooLarge": "Image exceeds the 3 MB limit and was not uploaded."
   },
   "tags": {
     "all": "All tags",

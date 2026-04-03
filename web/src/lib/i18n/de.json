@@ -56,7 +56,9 @@
     "saved": "Gespeichert",
     "newDocument": "Neue Anleitung",
     "uploadImage": "Bild hochladen",
-    "dragImage": "Bild hier ablegen oder klicken zum Durchsuchen"
+    "dragImage": "Bild hier ablegen oder klicken zum Durchsuchen",
+    "imageSizeHint": "Max. 3 MB pro Bild",
+    "imageTooLarge": "Das Bild überschreitet das Limit von 3 MB und wurde nicht hochgeladen."
   },
   "tags": {
     "all": "Alle Kategorien",

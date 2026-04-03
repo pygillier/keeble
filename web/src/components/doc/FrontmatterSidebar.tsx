@@ -60,6 +60,9 @@ export function FrontmatterSidebar({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [sizeError, setSizeError] = useState(false);
+
+  const MAX_IMAGE_BYTES = 3 * 1024 * 1024; // 3 MB
 
   function toggleTag(id: string) {
     if (selectedTagIds.includes(id)) {
@@ -71,17 +74,20 @@ export function FrontmatterSidebar({
 
   async function uploadImage(file: File) {
     if (!docId) return;
+    if (file.size > MAX_IMAGE_BYTES) {
+      setSizeError(true);
+      return;
+    }
+    setSizeError(false);
     setUploading(true);
     try {
-      const { getPb } = await import('@/lib/pb');
-      const pb = getPb();
+      const { uploadImageAction } = await import('@/lib/actions/doc');
       const formData = new FormData();
       formData.append('images', file);
-      const updated = await pb.collection('documents').update(docId, formData);
-      const filename = updated['images'][updated['images'].length - 1] as string;
-      const url = pb.files.getUrl(updated, filename);
+      const result = await uploadImageAction(docId, formData);
+      if (!result.success) throw new Error(result.error);
       const altText = file.name.replace(/\.[^.]+$/, '');
-      onImageInsert(`![${altText}](${url})`);
+      onImageInsert(`![${altText}](${result.url})`);
     } finally {
       setUploading(false);
     }
@@ -217,7 +223,29 @@ export function FrontmatterSidebar({
               >
                 {uploading ? t('uploading') : t('dragImage')}
               </p>
+              <p
+                style={{
+                  margin: '4px 0 0',
+                  fontSize: '11px',
+                  color: '#9AAFBA',
+                  fontFamily: 'DM Sans, sans-serif',
+                }}
+              >
+                {t('imageSizeHint')}
+              </p>
             </div>
+            {sizeError && (
+              <p
+                style={{
+                  margin: '6px 0 0',
+                  fontSize: '12px',
+                  color: '#C62828',
+                  fontFamily: 'DM Sans, sans-serif',
+                }}
+              >
+                {t('imageTooLarge')}
+              </p>
+            )}
           </>
         ) : (
           <p
