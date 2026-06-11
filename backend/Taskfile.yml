@@ -1,0 +1,17 @@
+version: "3"
+
+tasks:
+  dev:
+    desc: Run the FastAPI dev server
+    cmds:
+      - uv run uvicorn app.main:app --reload --port 8000
+
+  test:
+    desc: Run backend tests
+    cmds:
+      - uv run pytest
+
+  lint:
+    desc: Lint backend code
+    cmds:
+      - uv run ruff check .

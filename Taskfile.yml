@@ -1,0 +1,65 @@
+version: "3"
+
+tasks:
+  be:dev:
+    desc: Run the backend dev server
+    dir: backend
+    cmds:
+      - task dev
+
+  be:test:
+    desc: Run backend tests
+    dir: backend
+    cmds:
+      - task test
+
+  be:lint:
+    desc: Lint backend code
+    dir: backend
+    cmds:
+      - task lint
+
+  fe:dev:
+    desc: Run the frontend dev server
+    dir: frontend
+    cmds:
+      - task dev
+
+  fe:build:
+    desc: Build the frontend
+    dir: frontend
+    cmds:
+      - task build
+
+  fe:lint:
+    desc: Lint frontend code
+    dir: frontend
+    cmds:
+      - task lint
+
+  mongo:up:
+    desc: Start local MongoDB for development
+    cmds:
+      - docker compose -f docker-compose.dev.yml up -d
+
+  mongo:down:
+    desc: Stop local MongoDB
+    cmds:
+      - docker compose -f docker-compose.dev.yml down
+
+  dev:
+    desc: Run mongo, backend and frontend dev servers together
+    deps:
+      - mongo:up
+      - be:dev
+      - fe:dev
+
+  docker:build:
+    desc: Build production docker images
+    cmds:
+      - docker compose build
+
+  docker:up:
+    desc: Start production stack
+    cmds:
+      - docker compose up -d

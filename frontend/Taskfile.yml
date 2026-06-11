@@ -1,0 +1,17 @@
+version: "3"
+
+tasks:
+  dev:
+    desc: Run the Next.js dev server
+    cmds:
+      - npm run dev
+
+  build:
+    desc: Build the Next.js app
+    cmds:
+      - npm run build
+
+  lint:
+    desc: Lint frontend code
+    cmds:
+      - npm run lint
