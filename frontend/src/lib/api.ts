@@ -4,11 +4,12 @@
  * keeps the auth cookies scoped to the frontend's origin.
  */
 export async function apiFetch(path: string, init?: RequestInit) {
+  const isFormData = init?.body instanceof FormData;
   return fetch(path, {
     ...init,
     credentials: "include",
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...init?.headers,
     },
   });

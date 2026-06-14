@@ -14,13 +14,14 @@ type TagBadgeProps = {
   variant?: keyof typeof variantClasses;
   className?: string;
   title?: string;
+  children?: React.ReactNode;
 };
 
-export function TagBadge({ tag, href, variant, className, title }: TagBadgeProps) {
+export function TagBadge({ tag, href, variant, className, title, children }: TagBadgeProps) {
   const resolvedVariant =
     variant ?? (tag.toLowerCase() === "urgent" ? "amber" : "green");
   const classes = cn(
-    "inline-flex items-center rounded-pill px-2.5 py-1 text-xs font-medium",
+    "inline-flex items-center gap-1 rounded-pill px-2.5 py-1 text-xs font-medium",
     variantClasses[resolvedVariant],
     className
   );
@@ -29,12 +30,14 @@ export function TagBadge({ tag, href, variant, className, title }: TagBadgeProps
     return (
       <Link href={href} className={classes} title={title}>
         {tag}
+        {children}
       </Link>
     );
   }
   return (
     <span className={classes} title={title}>
       {tag}
+      {children}
     </span>
   );
 }
