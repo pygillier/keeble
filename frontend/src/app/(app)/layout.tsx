@@ -1,6 +1,7 @@
 import { getSessionUser } from "@/lib/auth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LogoutButton } from "@/components/logout-button";
+import { BottomNav } from "@/components/bottom-nav";
 
 export default async function AppLayout({
   children,
@@ -25,6 +26,7 @@ export default async function AppLayout({
         </div>
       </header>
       <main className="flex flex-1 flex-col">{children}</main>
+      <BottomNav />
     </div>
   );
 }

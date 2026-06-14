@@ -1,7 +1,6 @@
 import { cache } from "react";
-import { cookies } from "next/headers";
 
-import { API_URL } from "@/lib/config";
+import { serverApiGet } from "@/lib/server-fetch";
 
 export type SessionUser = {
   id: string;
@@ -12,14 +11,5 @@ export type SessionUser = {
 };
 
 export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
-  const cookieStore = await cookies();
-  const cookieHeader = cookieStore.toString();
-  if (!cookieHeader) return null;
-
-  const response = await fetch(`${API_URL}/api/auth/me`, {
-    headers: { cookie: cookieHeader },
-    cache: "no-store",
-  });
-  if (!response.ok) return null;
-  return response.json();
+  return serverApiGet<SessionUser>("/auth/me");
 });
