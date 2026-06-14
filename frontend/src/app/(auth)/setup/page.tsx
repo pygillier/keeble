@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { AuthCard, AuthField } from "@/components/auth-card";
-import { Button } from "@/components/ui/button";
+import { AuthCard, AuthField, AuthSubmitButton } from "@/components/auth-card";
 import { Input } from "@/components/ui/input";
 import { apiFetch } from "@/lib/api";
 
@@ -78,12 +77,9 @@ export default function SetupPage() {
             admin account first &mdash; family members can be added later
             from the settings panel.
           </p>
-          <Button
-            onClick={() => setStep(1)}
-            className="mt-1 h-auto w-full bg-forest py-2.5 text-[14.5px] font-semibold hover:bg-forest-hover"
-          >
+          <AuthSubmitButton onClick={() => setStep(1)}>
             Get started →
-          </Button>
+          </AuthSubmitButton>
         </div>
       )}
 
@@ -136,13 +132,9 @@ export default function SetupPage() {
             />
           </AuthField>
           {error && <p className="mb-3 text-xs text-rust">{error}</p>}
-          <Button
-            type="submit"
-            disabled={submitting}
-            className="mt-1 h-auto w-full bg-forest py-2.5 text-[14.5px] font-semibold hover:bg-forest-hover"
-          >
+          <AuthSubmitButton type="submit" disabled={submitting}>
             {submitting ? "Creating…" : "Continue →"}
-          </Button>
+          </AuthSubmitButton>
         </form>
       )}
 
@@ -155,15 +147,14 @@ export default function SetupPage() {
             Your family&apos;s vault is ready. You can start adding guides
             right away.
           </p>
-          <Button
+          <AuthSubmitButton
             onClick={() => {
               router.push("/");
               router.refresh();
             }}
-            className="mt-1 h-auto w-full bg-forest py-2.5 text-[14.5px] font-semibold hover:bg-forest-hover"
           >
             Go to Home →
-          </Button>
+          </AuthSubmitButton>
         </div>
       )}
     </AuthCard>

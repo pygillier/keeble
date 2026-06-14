@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { AuthCard, AuthField } from "@/components/auth-card";
-import { Button } from "@/components/ui/button";
+import { AuthCard, AuthField, AuthSubmitButton } from "@/components/auth-card";
 import { Input } from "@/components/ui/input";
 import { apiFetch } from "@/lib/api";
 
@@ -62,13 +61,9 @@ export default function LoginPage() {
           />
         </AuthField>
         {error && <p className="mb-3 text-xs text-rust">{error}</p>}
-        <Button
-          type="submit"
-          disabled={submitting}
-          className="mt-1 h-auto w-full bg-forest py-2.5 text-[14.5px] font-semibold hover:bg-forest-hover"
-        >
+        <AuthSubmitButton type="submit" disabled={submitting}>
           {submitting ? "Signing in…" : "Sign in"}
-        </Button>
+        </AuthSubmitButton>
       </form>
     </AuthCard>
   );

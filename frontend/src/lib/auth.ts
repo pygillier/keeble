@@ -1,6 +1,7 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+import { API_URL } from "@/lib/config";
 
 export type SessionUser = {
   id: string;
@@ -10,7 +11,7 @@ export type SessionUser = {
   family_id: string;
 };
 
-export async function getSessionUser(): Promise<SessionUser | null> {
+export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
   if (!cookieHeader) return null;
@@ -21,4 +22,4 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   });
   if (!response.ok) return null;
   return response.json();
-}
+});

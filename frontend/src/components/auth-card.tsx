@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
 export function AuthCard({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full max-w-sm rounded-lg border border-border bg-white p-9 pb-7 shadow-lg">
@@ -24,5 +27,20 @@ export function AuthField({
       </label>
       {children}
     </div>
+  );
+}
+
+export function AuthSubmitButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
+  return (
+    <Button
+      className={cn(
+        "mt-1 h-auto w-full bg-forest py-2.5 text-[14.5px] font-semibold hover:bg-forest-hover",
+        className
+      )}
+      {...props}
+    />
   );
 }

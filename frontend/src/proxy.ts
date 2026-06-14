@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+import { API_URL } from "@/lib/config";
+
 const AUTH_PATHS = ["/login", "/setup"];
+
+// Once setup has been completed, it can never be undone, so we can stop
+// asking the backend on every unauthenticated request.
+let setupComplete = false;
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -15,14 +20,18 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  let needsSetup = false;
-  try {
-    const statusResponse = await fetch(`${API_URL}/api/setup/status`, {
-      cache: "no-store",
-    });
-    needsSetup = (await statusResponse.json()).needs_setup;
-  } catch {
-    // assume setup is complete if the backend is unreachable
+  let needsSetup = !setupComplete;
+  if (needsSetup) {
+    try {
+      const statusResponse = await fetch(`${API_URL}/api/setup/status`, {
+        cache: "no-store",
+      });
+      needsSetup = (await statusResponse.json()).needs_setup;
+      setupComplete = !needsSetup;
+    } catch {
+      // assume setup is complete if the backend is unreachable
+      needsSetup = false;
+    }
   }
 
   if (pathname.startsWith("/setup")) {
