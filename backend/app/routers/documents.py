@@ -1,5 +1,4 @@
 import re
-from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
@@ -7,6 +6,7 @@ from app.auth.deps import get_current_user, require_editor
 from app.models.document import Document, DocumentStatus
 from app.models.user import User
 from app.schemas.document import DocumentCreate, DocumentOut, DocumentUpdate
+from app.utils import utcnow
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -42,11 +42,18 @@ def _doc_out(doc: Document) -> DocumentOut:
     )
 
 
-async def _get_visible_document(slug: str, user: User) -> Document:
+async def _get_document_or_404(family_id, slug: str) -> Document:
     doc = await Document.find_one(
-        Document.family_id == user.family_id, Document.slug == slug
+        Document.family_id == family_id, Document.slug == slug
     )
-    if doc is None or (doc.status != "published" and user.role != "editor"):
+    if doc is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
+    return doc
+
+
+async def _get_visible_document(slug: str, user: User) -> Document:
+    doc = await _get_document_or_404(user.family_id, slug)
+    if doc.status != "published" and user.role != "editor":
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
     return doc
 
@@ -106,24 +113,16 @@ async def create_document(
 async def update_document(
     slug: str, payload: DocumentUpdate, user: User = Depends(require_editor)
 ) -> DocumentOut:
-    doc = await Document.find_one(
-        Document.family_id == user.family_id, Document.slug == slug
-    )
-    if doc is None:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
+    doc = await _get_document_or_404(user.family_id, slug)
 
     for field, value in payload.model_dump(exclude_unset=True).items():
         setattr(doc, field, value)
-    doc.updated_at = datetime.now(timezone.utc)
+    doc.updated_at = utcnow()
     await doc.save()
     return _doc_out(doc)
 
 
 @router.delete("/{slug}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_document(slug: str, user: User = Depends(require_editor)) -> None:
-    doc = await Document.find_one(
-        Document.family_id == user.family_id, Document.slug == slug
-    )
-    if doc is None:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
+    doc = await _get_document_or_404(user.family_id, slug)
     await doc.delete()

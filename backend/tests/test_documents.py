@@ -1,11 +1,10 @@
 import pytest
-from httpx import ASGITransport, AsyncClient
+from httpx import AsyncClient
 
 from app.auth.security import hash_password
-from app.main import app
 from app.models.family import Family
 from app.models.user import User
-from tests.helpers import setup_family
+from tests.helpers import new_client, setup_family
 
 
 @pytest.mark.asyncio
@@ -135,10 +134,7 @@ async def test_reader_sees_only_published_and_cannot_write(client: AsyncClient) 
     )
     assert member.status_code == 201
 
-    transport = ASGITransport(app=app)
-    async with AsyncClient(
-        transport=transport, base_url="http://test"
-    ) as reader_client:
+    async with new_client() as reader_client:
         login = await reader_client.post(
             "/api/auth/login",
             json={"email": "reader@example.com", "password": "supersecret"},
@@ -175,8 +171,7 @@ async def test_family_isolation(client: AsyncClient) -> None:
     )
     await other_user.insert()
 
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as other_client:
+    async with new_client() as other_client:
         login = await other_client.post(
             "/api/auth/login",
             json={"email": "jones@example.com", "password": "supersecret"},

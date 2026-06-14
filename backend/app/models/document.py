@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Literal
 
 import pymongo
@@ -6,6 +6,8 @@ from beanie import Document as BeanieDocument
 from beanie import PydanticObjectId
 from pydantic import Field
 from pymongo import IndexModel
+
+from app.utils import utcnow
 
 DocumentStatus = Literal["draft", "published"]
 
@@ -18,8 +20,8 @@ class Document(BeanieDocument):
     content_md: str = ""
     author_id: PydanticObjectId
     status: DocumentStatus = "draft"
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=utcnow)
+    updated_at: datetime = Field(default_factory=utcnow)
 
     class Settings:
         name = "documents"

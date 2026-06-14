@@ -1,13 +1,12 @@
 import pytest
 from beanie import init_beanie
-from httpx import ASGITransport, AsyncClient
 from pymongo import AsyncMongoClient
 
 from app.config import settings
-from app.main import app
 from app.models.document import Document
 from app.models.family import Family
 from app.models.user import User
+from tests.helpers import new_client
 
 
 @pytest.fixture(autouse=True)
@@ -24,6 +23,5 @@ async def configure_test_db(tmp_path, monkeypatch):
 
 @pytest.fixture
 async def client():
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+    async with new_client() as ac:
         yield ac

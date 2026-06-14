@@ -1,6 +1,8 @@
 import pytest
 from httpx import AsyncClient
 
+from tests.helpers import setup_family
+
 
 @pytest.mark.asyncio
 async def test_setup_status_initially_needed(client: AsyncClient) -> None:
@@ -33,22 +35,9 @@ async def test_setup_creates_family_and_admin(client: AsyncClient) -> None:
 
 @pytest.mark.asyncio
 async def test_setup_fails_when_already_done(client: AsyncClient) -> None:
-    payload = {
-        "family_name": "The Smiths",
-        "email": "admin@example.com",
-        "password": "supersecret",
-        "display_name": "Admin",
-    }
-    first = await client.post("/api/setup", json=payload)
-    assert first.status_code == 200
+    await setup_family(client)
 
-    second = await client.post("/api/setup", json=payload)
-    assert second.status_code == 409
-
-
-@pytest.mark.asyncio
-async def test_login_logout_and_me(client: AsyncClient) -> None:
-    await client.post(
+    second = await client.post(
         "/api/setup",
         json={
             "family_name": "The Smiths",
@@ -57,6 +46,12 @@ async def test_login_logout_and_me(client: AsyncClient) -> None:
             "display_name": "Admin",
         },
     )
+    assert second.status_code == 409
+
+
+@pytest.mark.asyncio
+async def test_login_logout_and_me(client: AsyncClient) -> None:
+    await setup_family(client)
 
     login_response = await client.post(
         "/api/auth/login",
@@ -77,15 +72,7 @@ async def test_login_logout_and_me(client: AsyncClient) -> None:
 
 @pytest.mark.asyncio
 async def test_login_rejects_wrong_password(client: AsyncClient) -> None:
-    await client.post(
-        "/api/setup",
-        json={
-            "family_name": "The Smiths",
-            "email": "admin@example.com",
-            "password": "supersecret",
-            "display_name": "Admin",
-        },
-    )
+    await setup_family(client)
 
     response = await client.post(
         "/api/auth/login",
@@ -96,15 +83,7 @@ async def test_login_rejects_wrong_password(client: AsyncClient) -> None:
 
 @pytest.mark.asyncio
 async def test_refresh_rotates_tokens(client: AsyncClient) -> None:
-    await client.post(
-        "/api/setup",
-        json={
-            "family_name": "The Smiths",
-            "email": "admin@example.com",
-            "password": "supersecret",
-            "display_name": "Admin",
-        },
-    )
+    await setup_family(client)
 
     refresh_response = await client.post("/api/auth/refresh")
     assert refresh_response.status_code == 200

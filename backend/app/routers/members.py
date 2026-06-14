@@ -18,6 +18,13 @@ def _member_out(member: User) -> MemberOut:
     )
 
 
+async def _get_family_member(member_id: PydanticObjectId, family_id) -> User:
+    member = await User.find_one(User.id == member_id, User.family_id == family_id)
+    if member is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Member not found")
+    return member
+
+
 @router.get("", response_model=list[MemberOut])
 async def list_members(user: User = Depends(require_editor)) -> list[MemberOut]:
     members = await User.find(User.family_id == user.family_id).to_list()
@@ -48,9 +55,7 @@ async def update_member(
     payload: MemberUpdate,
     user: User = Depends(require_editor),
 ) -> MemberOut:
-    member = await User.get(member_id)
-    if member is None or member.family_id != user.family_id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Member not found")
+    member = await _get_family_member(member_id, user.family_id)
 
     updates = payload.model_dump(exclude_unset=True)
     password = updates.pop("password", None)
@@ -66,7 +71,5 @@ async def update_member(
 async def delete_member(
     member_id: PydanticObjectId, user: User = Depends(require_editor)
 ) -> None:
-    member = await User.get(member_id)
-    if member is None or member.family_id != user.family_id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Member not found")
+    member = await _get_family_member(member_id, user.family_id)
     await member.delete()

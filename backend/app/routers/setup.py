@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Response, status
 
-from app.auth.cookies import set_auth_cookies
-from app.auth.security import create_access_token, create_refresh_token, hash_password
+from app.auth.security import hash_password, issue_tokens
 from app.models.family import Family
 from app.models.user import User
 from app.schemas.auth import SetupRequest, SetupStatusResponse, UserOut
@@ -34,14 +33,5 @@ async def setup(payload: SetupRequest, response: Response) -> UserOut:
     )
     await user.insert()
 
-    access_token = create_access_token(str(user.id))
-    refresh_token = create_refresh_token(str(user.id))
-    set_auth_cookies(response, access_token, refresh_token)
-
-    return UserOut(
-        id=str(user.id),
-        email=user.email,
-        display_name=user.display_name,
-        role=user.role,
-        family_id=str(family.id),
-    )
+    issue_tokens(response, str(user.id))
+    return UserOut.from_user(user)

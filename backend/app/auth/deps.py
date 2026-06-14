@@ -7,8 +7,7 @@ from app.auth.security import decode_token
 from app.models.user import User
 
 
-async def get_current_user(request: Request) -> User:
-    token = request.cookies.get(ACCESS_TOKEN_COOKIE)
+async def resolve_user_from_token(token: str | None, expected_type: str) -> User:
     if not token:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Not authenticated")
 
@@ -17,7 +16,7 @@ async def get_current_user(request: Request) -> User:
     except JWTError:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid token")
 
-    if payload.get("type") != "access":
+    if payload.get("type") != expected_type:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid token type")
 
     user = await User.get(PydanticObjectId(payload["sub"]))
@@ -25,6 +24,12 @@ async def get_current_user(request: Request) -> User:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "User not found")
 
     return user
+
+
+async def get_current_user(request: Request) -> User:
+    return await resolve_user_from_token(
+        request.cookies.get(ACCESS_TOKEN_COOKIE), "access"
+    )
 
 
 async def require_editor(user: User = Depends(get_current_user)) -> User:

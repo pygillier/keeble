@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta, timezone
 
 import bcrypt
+from fastapi import Response
 from jose import jwt
 
+from app.auth.cookies import set_auth_cookies
 from app.config import settings
 
 
@@ -39,3 +41,9 @@ def create_refresh_token(user_id: str) -> str:
 
 def decode_token(token: str) -> dict:
     return jwt.decode(token, settings.jwt_secret, algorithms=[settings.jwt_algorithm])
+
+
+def issue_tokens(response: Response, user_id: str) -> None:
+    access_token = create_access_token(user_id)
+    refresh_token = create_refresh_token(user_id)
+    set_auth_cookies(response, access_token, refresh_token)

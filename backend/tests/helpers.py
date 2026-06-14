@@ -1,4 +1,10 @@
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
+
+from app.main import app
+
+
+def new_client() -> AsyncClient:
+    return AsyncClient(transport=ASGITransport(app=app), base_url="http://test")
 
 
 async def setup_family(
