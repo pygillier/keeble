@@ -46,3 +46,17 @@ export async function getTags(): Promise<TagCount[]> {
   const tags = await serverApiGet<TagCount[]>("/tags");
   return tags ?? [];
 }
+
+export type Role = "reader" | "editor";
+
+export type Member = {
+  id: string;
+  email: string;
+  display_name: string;
+  role: Role;
+};
+
+export async function getMembers(): Promise<Member[]> {
+  const members = await serverApiGet<Member[]>("/members");
+  return members ?? [];
+}

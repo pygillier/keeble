@@ -58,6 +58,11 @@ async def update_member(
     member = await _get_family_member(member_id, user.family_id)
 
     updates = payload.model_dump(exclude_unset=True)
+    if member.id == user.id and updates.get("role") == "reader":
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST, "You can't change your own role"
+        )
+
     password = updates.pop("password", None)
     if password:
         member.password_hash = hash_password(password)
@@ -71,5 +76,7 @@ async def update_member(
 async def delete_member(
     member_id: PydanticObjectId, user: User = Depends(require_editor)
 ) -> None:
+    if member_id == user.id:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "You can't remove yourself")
     member = await _get_family_member(member_id, user.family_id)
     await member.delete()

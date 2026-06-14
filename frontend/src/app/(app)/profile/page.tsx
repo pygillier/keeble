@@ -1,9 +1,12 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { FamilyMembers } from "@/components/family-members";
 import { LogoutButton } from "@/components/logout-button";
 import { getSessionUser } from "@/lib/auth";
+import { getMembers } from "@/lib/data";
 
 export default async function ProfilePage() {
   const user = await getSessionUser();
+  const members = user?.role === "editor" ? await getMembers() : [];
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-4">
@@ -25,6 +28,9 @@ export default async function ProfilePage() {
             </div>
           </div>
         </div>
+      )}
+      {user?.role === "editor" && (
+        <FamilyMembers initialMembers={members} currentUserId={user.id} />
       )}
       <LogoutButton className="self-start text-rust hover:text-rust/80" />
     </div>

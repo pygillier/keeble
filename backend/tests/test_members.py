@@ -35,6 +35,18 @@ async def test_member_lifecycle(client: AsyncClient) -> None:
 
 
 @pytest.mark.asyncio
+async def test_member_cannot_demote_or_remove_self(client: AsyncClient) -> None:
+    setup = await setup_family(client)
+    self_id = setup["id"]
+
+    demote = await client.patch(f"/api/members/{self_id}", json={"role": "reader"})
+    assert demote.status_code == 400
+
+    remove = await client.delete(f"/api/members/{self_id}")
+    assert remove.status_code == 400
+
+
+@pytest.mark.asyncio
 async def test_member_email_must_be_unique(client: AsyncClient) -> None:
     await setup_family(client)
 
