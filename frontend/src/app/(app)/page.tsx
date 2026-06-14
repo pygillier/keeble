@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button";
+import { getSessionUser } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getSessionUser();
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-background p-8 text-center">
       <h1 className="font-display text-4xl text-forest">Keeble</h1>
       <p className="mt-2 max-w-sm text-slate">
-        A self-hostable family document vault. Scaffolding in progress.
+        Welcome back{user ? `, ${user.display_name}` : ""}. Your family&apos;s
+        guides will live here.
       </p>
-      <Button className="mt-6 bg-forest hover:bg-forest-hover">
-        Get started
-      </Button>
     </div>
   );
 }
