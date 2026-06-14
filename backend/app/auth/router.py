@@ -22,7 +22,7 @@ def _user_out(user: User) -> UserOut:
         email=user.email,
         display_name=user.display_name,
         role=user.role,
-        family_id=str(user.family_id.ref.id),
+        family_id=str(user.family_id),
     )
 
 

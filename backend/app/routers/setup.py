@@ -30,7 +30,7 @@ async def setup(payload: SetupRequest, response: Response) -> UserOut:
         password_hash=hash_password(payload.password),
         display_name=payload.display_name,
         role="editor",
-        family_id=family,
+        family_id=family.id,
     )
     await user.insert()
 

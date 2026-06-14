@@ -1,14 +1,5 @@
 import pytest
-from httpx import ASGITransport, AsyncClient
-
-from app.main import app
-
-
-@pytest.fixture
-async def client():
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
-        yield ac
+from httpx import AsyncClient
 
 
 @pytest.mark.asyncio
@@ -134,7 +125,7 @@ async def test_require_editor_blocks_readers(client: AsyncClient) -> None:
         password_hash=hash_password("supersecret"),
         display_name="Reader",
         role="reader",
-        family_id=family,
+        family_id=family.id,
     )
     await reader.insert()
 
