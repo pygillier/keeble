@@ -1,0 +1,33 @@
+services:
+  mongo:
+    image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      UPLOADS_DIR: /data/uploads
+      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:3000"]}'
+    volumes:
+      - uploads:/data/uploads
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  uploads:
