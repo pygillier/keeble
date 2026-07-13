@@ -111,3 +111,11 @@ Keeble/
 | `task mongo:down` | Stop dev MongoDB container |
 | `task docker:build` | Build the production image |
 | `task docker:up` | Start the production stack |
+| `task release:bump -- patch\|minor\|major` | Bump the version and push a git tag, triggering the release workflow |
+
+## Releases
+
+Pushing a `vX.Y.Z` tag (via `task release:bump`) triggers [`.github/workflows/release.yml`](.github/workflows/release.yml), which:
+
+1. Builds the production Docker image and pushes it to `ghcr.io/pygillier/keeble`, tagged with the version (`vX.Y.Z`, `vX.Y`, `vX`) and `latest`.
+2. Creates a GitHub release for the tag with auto-generated release notes.

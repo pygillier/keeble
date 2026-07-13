@@ -32,3 +32,33 @@ tasks:
     desc: Start production stack
     cmds:
       - docker compose up -d
+
+  release:bump:
+    desc: 'Bump version and push a git tag to trigger release CI (usage: task release:bump -- major|minor|patch)'
+    silent: true
+    cmds:
+      - |
+        set -euo pipefail
+        BUMP="{{.CLI_ARGS}}"
+        if [[ "$BUMP" != "major" && "$BUMP" != "minor" && "$BUMP" != "patch" ]]; then
+          echo "Usage: task release:bump -- major|minor|patch" >&2
+          exit 1
+        fi
+        if [[ -n "$(git status --porcelain)" ]]; then
+          echo "Working tree is not clean" >&2
+          exit 1
+        fi
+        git fetch --tags origin
+        LATEST=$(git tag -l 'v*.*.*' | sort -V | tail -n1)
+        LATEST=${LATEST:-v0.0.0}
+        IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST#v}"
+        case "$BUMP" in
+          major) MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0 ;;
+          minor) MINOR=$((MINOR+1)); PATCH=0 ;;
+          patch) PATCH=$((PATCH+1)) ;;
+        esac
+        NEW="v${MAJOR}.${MINOR}.${PATCH}"
+        echo "Bumping ${LATEST} -> ${NEW}"
+        git tag -a "$NEW" -m "$NEW"
+        git push origin "$NEW"
+        echo "Pushed tag $NEW — release workflow will run on GitHub Actions"
