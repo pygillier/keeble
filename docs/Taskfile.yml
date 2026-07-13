@@ -1,0 +1,7 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build the documentation as static HTML
+    cmds:
+      - uv run --project .. --group docs sphinx-build -b html source build/html
