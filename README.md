@@ -71,6 +71,21 @@ JWT_SECRET=your-secret docker compose up -d
 
 The app listens on port 3000. MongoDB data and uploaded images are persisted in named volumes (`mongo_data`, `uploads`).
 
+### Deploying the published image
+
+For real deployments, skip building locally and pull the image published to GHCR by the [release workflow](#releases) instead, using [`docker-compose.prod.yml`](docker-compose.prod.yml):
+
+```bash
+JWT_SECRET=your-secret task docker:prod:pull
+JWT_SECRET=your-secret task docker:prod:up
+```
+
+By default this runs `ghcr.io/pygillier/keeble:latest`. Pin to a specific release with `IMAGE_TAG`:
+
+```bash
+IMAGE_TAG=v1.2.3 JWT_SECRET=your-secret task docker:prod:up
+```
+
 ### Environment variables
 
 | Variable | Default | Description |
@@ -93,6 +108,7 @@ Keeble/
 ├── Dockerfile        # Multi-stage build (frontend + backend)
 ├── docker-compose.yml
 ├── docker-compose.dev.yml   # MongoDB only, for local dev
+├── docker-compose.prod.yml  # Real deployments: pulls the ghcr.io image instead of building
 ├── supervisord.conf  # Manages uvicorn + node in the container
 └── Taskfile.yml      # Root task runner
 ```
@@ -111,6 +127,8 @@ Keeble/
 | `task mongo:down` | Stop dev MongoDB container |
 | `task docker:build` | Build the production image |
 | `task docker:up` | Start the production stack |
+| `task docker:prod:pull` | Pull the published `ghcr.io` image (`IMAGE_TAG` to pin a version) |
+| `task docker:prod:up` | Start the production stack using the published `ghcr.io` image |
 | `task release:bump -- patch\|minor\|major` | Bump the version and push a git tag, triggering the release workflow |
 
 ## Releases

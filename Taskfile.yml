@@ -33,6 +33,16 @@ tasks:
     cmds:
       - docker compose up -d
 
+  docker:prod:pull:
+    desc: 'Pull the published image for a real deployment (usage: IMAGE_TAG=v1.2.3 task docker:prod:pull)'
+    cmds:
+      - docker compose -f docker-compose.prod.yml pull
+
+  docker:prod:up:
+    desc: 'Start the production stack using the published ghcr.io image (usage: IMAGE_TAG=v1.2.3 task docker:prod:up)'
+    cmds:
+      - docker compose -f docker-compose.prod.yml up -d
+
   release:bump:
     desc: 'Bump version and push a git tag to trigger release CI (usage: task release:bump -- major|minor|patch)'
     silent: true
