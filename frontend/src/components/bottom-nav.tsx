@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HomeIcon, SearchIcon, TagsIcon, UserIcon } from "lucide-react";
+import { HomeIcon, SearchIcon, TagsIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useDictionary } from "@/i18n/locale-context";
@@ -12,7 +12,6 @@ const NAV_ITEMS: { href: string; label: keyof Dictionary["nav"]; icon: typeof Ho
   { href: "/", label: "home", icon: HomeIcon },
   { href: "/search", label: "search", icon: SearchIcon },
   { href: "/tags", label: "tags", icon: TagsIcon },
-  { href: "/profile", label: "profile", icon: UserIcon },
 ];
 
 export function BottomNav() {

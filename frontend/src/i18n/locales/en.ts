@@ -10,7 +10,6 @@ const en = {
     home: "Home",
     search: "Search",
     tags: "Tags",
-    profile: "Profile",
   },
   home: {
     browseByCategory: "Browse by category",

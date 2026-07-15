@@ -12,7 +12,6 @@ const fr: Dictionary = {
     home: "Accueil",
     search: "Recherche",
     tags: "Étiquettes",
-    profile: "Profil",
   },
   home: {
     browseByCategory: "Parcourir par catégorie",
