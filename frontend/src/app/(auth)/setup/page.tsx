@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { AuthCard, AuthField, AuthSubmitButton } from "@/components/auth-card";
 import { Input } from "@/components/ui/input";
 import { apiFetch } from "@/lib/api";
+import { useDictionary } from "@/i18n/locale-context";
 
 const TOTAL_STEPS = 3;
 
@@ -30,6 +31,7 @@ function ProgressDots({ step }: { step: number }) {
 
 export default function SetupPage() {
   const router = useRouter();
+  const dict = useDictionary();
   const [step, setStep] = useState(0);
   const [familyName, setFamilyName] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -56,7 +58,7 @@ export default function SetupPage() {
     setSubmitting(false);
 
     if (!response.ok) {
-      setError("Something went wrong. Please check your details and try again.");
+      setError(dict.setup.genericError);
       return;
     }
 
@@ -70,15 +72,13 @@ export default function SetupPage() {
       {step === 0 && (
         <div>
           <div className="mb-1 text-[17px] font-semibold text-slate">
-            Welcome to Keeble
+            {dict.setup.welcome}
           </div>
           <p className="mb-5 text-sm leading-relaxed text-stone">
-            Let&apos;s set up your family&apos;s vault. You&apos;ll create the
-            admin account first &mdash; family members can be added later
-            from the settings panel.
+            {dict.setup.intro}
           </p>
           <AuthSubmitButton onClick={() => setStep(1)}>
-            Get started →
+            {dict.setup.getStarted}
           </AuthSubmitButton>
         </div>
       )}
@@ -86,46 +86,45 @@ export default function SetupPage() {
       {step === 1 && (
         <form onSubmit={handleSubmit}>
           <div className="mb-1 text-[11px] font-medium text-stone">
-            Step 2 of {TOTAL_STEPS} — Create admin account
+            {dict.setup.stepOf(2, TOTAL_STEPS)}
           </div>
           <div className="mb-1 text-[17px] font-semibold text-slate">
-            Create your account
+            {dict.setup.createAccount}
           </div>
           <p className="mb-5 text-sm leading-relaxed text-stone">
-            This will be the admin account. Family members can be added later
-            from the settings panel.
+            {dict.setup.createAccountIntro}
           </p>
-          <AuthField label="Family name">
+          <AuthField label={dict.setup.familyName}>
             <Input
               type="text"
-              placeholder="e.g. The Johnsons"
+              placeholder={dict.setup.familyNamePlaceholder}
               value={familyName}
               onChange={(e) => setFamilyName(e.target.value)}
               required
             />
           </AuthField>
-          <AuthField label="Your name">
+          <AuthField label={dict.setup.yourName}>
             <Input
               type="text"
-              placeholder="e.g. Alex"
+              placeholder={dict.setup.yourNamePlaceholder}
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               required
             />
           </AuthField>
-          <AuthField label="Email address">
+          <AuthField label={dict.setup.email}>
             <Input
               type="email"
-              placeholder="you@example.com"
+              placeholder={dict.setup.emailPlaceholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </AuthField>
-          <AuthField label="Password">
+          <AuthField label={dict.setup.password}>
             <Input
               type="password"
-              placeholder="Choose a strong password"
+              placeholder={dict.setup.passwordPlaceholder}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -133,7 +132,7 @@ export default function SetupPage() {
           </AuthField>
           {error && <p className="mb-3 text-xs text-rust">{error}</p>}
           <AuthSubmitButton type="submit" disabled={submitting}>
-            {submitting ? "Creating…" : "Continue →"}
+            {submitting ? dict.setup.creating : dict.setup.continue}
           </AuthSubmitButton>
         </form>
       )}
@@ -141,11 +140,10 @@ export default function SetupPage() {
       {step === 2 && (
         <div>
           <div className="mb-1 text-[17px] font-semibold text-slate">
-            You&apos;re all set
+            {dict.setup.allSet}
           </div>
           <p className="mb-5 text-sm leading-relaxed text-stone">
-            Your family&apos;s vault is ready. You can start adding guides
-            right away.
+            {dict.setup.allSetIntro}
           </p>
           <AuthSubmitButton
             onClick={() => {
@@ -153,7 +151,7 @@ export default function SetupPage() {
               router.refresh();
             }}
           >
-            Go to Home →
+            {dict.setup.goHome}
           </AuthSubmitButton>
         </div>
       )}

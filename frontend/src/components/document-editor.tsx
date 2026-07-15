@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { TagBadge } from "@/components/tag-badge";
 import { DocumentContent } from "@/components/document-content";
 import type { DocumentSummary, DocumentStatus } from "@/lib/data";
+import { useDictionary, useLocale } from "@/i18n/locale-context";
 
 type Busy = "idle" | "saving" | "deleting" | "uploading";
 
@@ -41,6 +42,8 @@ export function DocumentEditor({
   initialDoc?: DocumentSummary;
 }) {
   const router = useRouter();
+  const dict = useDictionary();
+  const locale = useLocale();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -97,7 +100,7 @@ export function DocumentEditor({
     setBusy("idle");
 
     if (!response.ok) {
-      setError("Couldn't upload that image.");
+      setError(dict.editor.couldntUploadImage);
       return;
     }
 
@@ -122,7 +125,7 @@ export function DocumentEditor({
     setBusy("idle");
 
     if (!response.ok) {
-      setError("Couldn't save this guide.");
+      setError(dict.editor.couldntSaveGuide);
       return;
     }
 
@@ -133,7 +136,7 @@ export function DocumentEditor({
 
   async function handleDelete() {
     if (!initialDoc) return;
-    if (!window.confirm(`Delete "${initialDoc.title}"? This can't be undone.`)) {
+    if (!window.confirm(dict.editor.confirmDelete(initialDoc.title))) {
       return;
     }
 
@@ -145,7 +148,7 @@ export function DocumentEditor({
     setBusy("idle");
 
     if (!response.ok) {
-      setError("Couldn't delete this guide.");
+      setError(dict.editor.couldntDeleteGuide);
       return;
     }
 
@@ -159,10 +162,10 @@ export function DocumentEditor({
     <div className="flex flex-1 flex-col">
       <div className="flex flex-wrap items-center gap-3 border-b border-border bg-card px-4 py-3">
         <span className="text-sm text-stone">
-          Guides
+          {dict.editor.guides}
           <span className="px-1.5 text-stone-light">/</span>
           <strong className="font-medium text-slate">
-            {title || "Untitled guide"}
+            {title || dict.editor.untitled}
           </strong>
         </span>
         <div className="ml-auto flex items-center gap-2">
@@ -171,14 +174,14 @@ export function DocumentEditor({
             onChange={(event) => setStatus(event.target.value as DocumentStatus)}
             className="h-8 rounded-lg border border-input bg-transparent px-2.5 text-sm text-slate outline-none focus-visible:border-ring"
           >
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
+            <option value="draft">{dict.editor.draft}</option>
+            <option value="published">{dict.editor.published}</option>
           </select>
           <Link
             href={cancelHref}
             className="text-sm font-medium text-stone transition-colors hover:text-slate"
           >
-            Cancel
+            {dict.common.cancel}
           </Link>
           {mode === "edit" && (
             <Button
@@ -187,7 +190,7 @@ export function DocumentEditor({
               onClick={handleDelete}
               disabled={busy !== "idle"}
             >
-              {busy === "deleting" ? "Deleting…" : "Delete"}
+              {busy === "deleting" ? dict.editor.deleting : dict.editor.delete}
             </Button>
           )}
           <Button
@@ -196,7 +199,7 @@ export function DocumentEditor({
             disabled={busy !== "idle" || !title.trim()}
             className="bg-forest hover:bg-forest-hover"
           >
-            {busy === "saving" ? "Saving…" : "Save changes"}
+            {busy === "saving" ? dict.editor.saving : dict.editor.saveChanges}
           </Button>
         </div>
       </div>
@@ -209,37 +212,37 @@ export function DocumentEditor({
 
       <div className="flex flex-1 flex-col lg:flex-row">
         <div className="flex flex-col lg:w-64 lg:shrink-0 lg:border-r lg:border-border">
-          <SidebarSection label="Document">
+          <SidebarSection label={dict.editor.document}>
             <div className="mb-3">
               <label className="mb-1.5 block text-xs font-medium text-slate">
-                Title
+                {dict.editor.title}
               </label>
               <Input
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
-                placeholder="e.g. Reboot the internet router"
+                placeholder={dict.editor.titlePlaceholder}
               />
             </div>
             <div>
               <label className="mb-1.5 block text-xs font-medium text-slate">
-                Slug
+                {dict.editor.slug}
               </label>
               <Input
-                value={initialDoc?.slug ?? "generated on save"}
+                value={initialDoc?.slug ?? dict.editor.generatedOnSave}
                 disabled
                 className="font-mono text-xs"
               />
             </div>
           </SidebarSection>
 
-          <SidebarSection label="Tags">
+          <SidebarSection label={dict.editor.tags}>
             <div className="mb-2 flex min-h-9 flex-wrap gap-1.5 rounded-lg border border-input bg-parchment p-1.5">
               {tags.map((tag) => (
                 <TagBadge key={tag} tag={tag} className="px-2 py-0.5">
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    aria-label={`Remove ${tag} tag`}
+                    aria-label={dict.editor.removeTag(tag)}
                     className="text-forest/60 transition-colors hover:text-forest"
                   >
                     <XIcon className="size-3" />
@@ -257,11 +260,11 @@ export function DocumentEditor({
                 }
               }}
               onBlur={addTag}
-              placeholder="Add a tag…"
+              placeholder={dict.editor.addTagPlaceholder}
             />
           </SidebarSection>
 
-          <SidebarSection label="Images">
+          <SidebarSection label={dict.editor.images}>
             <input
               ref={fileInputRef}
               type="file"
@@ -276,17 +279,21 @@ export function DocumentEditor({
               className="flex w-full flex-col items-center gap-1 rounded-lg border-[1.5px] border-dashed border-border bg-parchment px-3 py-4 text-center text-xs text-stone transition-colors hover:border-leaf hover:bg-mist hover:text-forest disabled:opacity-50"
             >
               <ImageUpIcon className="size-4" />
-              {busy === "uploading" ? "Uploading…" : "Click to upload an image"}
+              {busy === "uploading" ? dict.editor.uploading : dict.editor.clickToUpload}
             </button>
           </SidebarSection>
 
           {initialDoc && (
-            <SidebarSection label="Metadata">
+            <SidebarSection label={dict.editor.metadata}>
               <p className="text-xs text-stone">
-                Updated {formatRelativeTime(initialDoc.updated_at)}
+                {dict.common.updated(
+                  formatRelativeTime(initialDoc.updated_at, locale, dict.common.justNow)
+                )}
               </p>
               <p className="mt-1 text-xs text-stone">
-                Created {formatRelativeTime(initialDoc.created_at)}
+                {dict.editor.created(
+                  formatRelativeTime(initialDoc.created_at, locale, dict.common.justNow)
+                )}
               </p>
             </SidebarSection>
           )}
@@ -296,14 +303,14 @@ export function DocumentEditor({
           <div className="flex flex-1 flex-col border-b border-border lg:border-b-0 lg:border-r">
             <div className="flex h-9 shrink-0 items-center gap-2 border-b border-border bg-parchment px-4 text-[10.5px] font-semibold tracking-wider text-stone uppercase">
               <span className="size-1.5 rounded-full bg-leaf" />
-              Markdown
+              {dict.editor.markdown}
             </div>
             <textarea
               ref={textareaRef}
               value={contentMd}
               onChange={(event) => setContentMd(event.target.value)}
               spellCheck={false}
-              placeholder={"## Step 1: Give your step a title\n\nDescribe what to do…"}
+              placeholder={dict.editor.contentPlaceholder}
               className="min-h-80 flex-1 resize-none bg-white p-4 font-mono text-xs leading-relaxed text-slate outline-none lg:min-h-0"
             />
           </div>
@@ -311,11 +318,11 @@ export function DocumentEditor({
           <div className="flex flex-1 flex-col">
             <div className="flex h-9 shrink-0 items-center gap-2 border-b border-border bg-parchment px-4 text-[10.5px] font-semibold tracking-wider text-stone uppercase">
               <span className="size-1.5 rounded-full bg-amber" />
-              Preview
+              {dict.editor.preview}
             </div>
             <div className="flex-1 overflow-y-auto bg-white p-4">
               <h2 className="mb-2 font-display text-lg text-slate">
-                {title || "Untitled guide"}
+                {title || dict.editor.untitled}
               </h2>
               {tags.length > 0 && (
                 <div className="mb-4 flex flex-wrap gap-1.5">

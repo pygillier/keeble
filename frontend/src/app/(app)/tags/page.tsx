@@ -1,12 +1,13 @@
 import { getTags } from "@/lib/data";
 import { TagBadge } from "@/components/tag-badge";
+import { getIntl } from "@/i18n/resolve-locale";
 
 export default async function TagsPage() {
-  const tags = await getTags();
+  const [{ dict }, tags] = await Promise.all([getIntl(), getTags()]);
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
-      <h1 className="font-display text-lg text-slate">Browse by category</h1>
+      <h1 className="font-display text-lg text-slate">{dict.tags.title}</h1>
       {tags.length > 0 ? (
         <div className="flex flex-wrap gap-2">
           {tags.map(({ tag, count }) => (
@@ -19,7 +20,7 @@ export default async function TagsPage() {
           ))}
         </div>
       ) : (
-        <p className="text-sm text-stone">No tags yet.</p>
+        <p className="text-sm text-stone">{dict.tags.empty}</p>
       )}
     </div>
   );

@@ -2,8 +2,12 @@ version: "3"
 
 includes:
   doc: ./docs
-  frontend: ./frontend
-  backend: ./backend
+  frontend:
+    taskfile: ./frontend/Taskfile.yml
+    dir: frontend
+  backend:
+    taskfile: ./backend/Taskfile.yml
+    dir: backend
 
 tasks:
   mongo:up:
@@ -15,6 +19,12 @@ tasks:
     desc: Stop local MongoDB
     cmds:
       - docker compose -f docker-compose.dev.yml down
+
+  mongo:reset:
+    desc: Reset local MongoDB to a clean state (wipes dev data volume)
+    cmds:
+      - docker compose -f docker-compose.dev.yml down -v
+      - docker compose -f docker-compose.dev.yml up -d
 
   dev:
     desc: Run mongo, backend and frontend dev servers together

@@ -4,9 +4,11 @@ import { useRouter } from "next/navigation";
 
 import { apiFetch } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/i18n/locale-context";
 
 export function LogoutButton({ className }: { className?: string }) {
   const router = useRouter();
+  const dict = useDictionary();
 
   async function handleLogout() {
     await apiFetch("/api/auth/logout", { method: "POST" });
@@ -22,7 +24,7 @@ export function LogoutButton({ className }: { className?: string }) {
         className
       )}
     >
-      Log out
+      {dict.common.logOut}
     </button>
   );
 }

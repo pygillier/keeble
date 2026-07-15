@@ -2,9 +2,14 @@ import Link from "next/link";
 
 import { TagBadge } from "@/components/tag-badge";
 import type { DocumentSummary } from "@/lib/data";
-import { formatRelativeTime } from "@/lib/utils";
 
-export function DocCard({ doc }: { doc: DocumentSummary }) {
+export function DocCard({
+  doc,
+  updatedLabel,
+}: {
+  doc: DocumentSummary;
+  updatedLabel: string;
+}) {
   return (
     <Link
       href={`/docs/${doc.slug}`}
@@ -17,7 +22,7 @@ export function DocCard({ doc }: { doc: DocumentSummary }) {
         {doc.tags[0] && (
           <TagBadge tag={doc.tags[0]} className="px-1.5 py-0.5 text-[10px]" />
         )}
-        <span>Updated {formatRelativeTime(doc.updated_at)}</span>
+        <span>{updatedLabel}</span>
       </div>
     </Link>
   );

@@ -7,6 +7,7 @@ import { SearchIcon, XIcon } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { TagBadge } from "@/components/tag-badge";
 import type { DocumentSummary } from "@/lib/data";
+import { useDictionary } from "@/i18n/locale-context";
 
 function findMatch(text: string, query: string): number {
   if (!query) return -1;
@@ -40,6 +41,7 @@ function snippet(content: string, query: string, context = 50) {
 }
 
 export default function SearchPage() {
+  const dict = useDictionary();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<DocumentSummary[] | null>(null);
 
@@ -70,14 +72,14 @@ export default function SearchPage() {
           autoFocus
           value={query}
           onChange={(event) => handleQueryChange(event.target.value)}
-          placeholder="Search guides…"
+          placeholder={dict.common.searchPlaceholder}
           className="flex-1 bg-transparent text-slate outline-none placeholder:text-stone"
         />
         {query && (
           <button
             type="button"
             onClick={() => handleQueryChange("")}
-            aria-label="Clear search"
+            aria-label={dict.search.clear}
             className="text-stone transition-colors hover:text-forest"
           >
             <XIcon className="size-4" />
@@ -88,7 +90,7 @@ export default function SearchPage() {
       {results !== null && (
         <div className="flex flex-col gap-3">
           <p className="text-xs font-medium text-stone">
-            {results.length} result{results.length === 1 ? "" : "s"}
+            {dict.search.resultCount(results.length)}
           </p>
           {results.map((doc) => (
             <Link

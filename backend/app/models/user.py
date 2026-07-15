@@ -7,6 +7,7 @@ from pydantic import Field
 from app.utils import utcnow
 
 Role = Literal["reader", "editor"]
+Locale = Literal["en", "fr"]
 
 
 class User(Document):
@@ -15,6 +16,7 @@ class User(Document):
     display_name: str
     role: Role
     family_id: PydanticObjectId
+    locale: Locale = "en"
     created_at: datetime = Field(default_factory=utcnow)
 
     class Settings:

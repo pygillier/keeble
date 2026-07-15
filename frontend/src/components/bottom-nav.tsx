@@ -5,16 +5,19 @@ import { usePathname } from "next/navigation";
 import { HomeIcon, SearchIcon, TagsIcon, UserIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/i18n/locale-context";
+import type { Dictionary } from "@/i18n/dictionaries";
 
-const NAV_ITEMS = [
-  { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/search", label: "Search", icon: SearchIcon },
-  { href: "/tags", label: "Tags", icon: TagsIcon },
-  { href: "/profile", label: "Profile", icon: UserIcon },
+const NAV_ITEMS: { href: string; label: keyof Dictionary["nav"]; icon: typeof HomeIcon }[] = [
+  { href: "/", label: "home", icon: HomeIcon },
+  { href: "/search", label: "search", icon: SearchIcon },
+  { href: "/tags", label: "tags", icon: TagsIcon },
+  { href: "/profile", label: "profile", icon: UserIcon },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
+  const dict = useDictionary();
 
   return (
     <nav className="flex shrink-0 items-center justify-around border-t border-border bg-card py-2">
@@ -34,7 +37,7 @@ export function BottomNav() {
                 active ? "text-forest" : "text-stone"
               )}
             >
-              {label}
+              {dict.nav[label]}
             </span>
           </Link>
         );

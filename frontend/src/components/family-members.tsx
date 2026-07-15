@@ -16,9 +16,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useDictionary } from "@/i18n/locale-context";
 
 const roleSelectClass =
-  "h-7 rounded-lg border border-input bg-transparent px-2 text-xs text-slate capitalize outline-none focus-visible:border-ring disabled:opacity-50";
+  "h-7 rounded-lg border border-input bg-transparent px-2 text-xs text-slate outline-none focus-visible:border-ring disabled:opacity-50";
 
 const emptyForm = { displayName: "", email: "", password: "", role: "reader" as Role };
 
@@ -33,6 +34,7 @@ function RoleSelect({
   disabled?: boolean;
   className: string;
 }) {
+  const dict = useDictionary();
   return (
     <select
       value={value}
@@ -40,8 +42,8 @@ function RoleSelect({
       disabled={disabled}
       className={className}
     >
-      <option value="reader">Reader</option>
-      <option value="editor">Editor</option>
+      <option value="reader">{dict.familyMembers.reader}</option>
+      <option value="editor">{dict.familyMembers.editor}</option>
     </select>
   );
 }
@@ -53,6 +55,7 @@ export function FamilyMembers({
   initialMembers: Member[];
   currentUserId: string;
 }) {
+  const dict = useDictionary();
   const [members, setMembers] = useState(initialMembers);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -71,7 +74,7 @@ export function FamilyMembers({
     setBusyId(null);
 
     if (!response.ok) {
-      setError("Couldn't update that member's role.");
+      setError(dict.familyMembers.couldntUpdateRole);
       return;
     }
 
@@ -82,7 +85,7 @@ export function FamilyMembers({
   }
 
   async function handleDelete(member: Member) {
-    if (!window.confirm(`Remove ${member.display_name} from the family?`)) {
+    if (!window.confirm(dict.familyMembers.removeConfirm(member.display_name))) {
       return;
     }
 
@@ -94,7 +97,7 @@ export function FamilyMembers({
     setBusyId(null);
 
     if (!response.ok) {
-      setError("Couldn't remove that member.");
+      setError(dict.familyMembers.couldntRemoveMember);
       return;
     }
 
@@ -118,8 +121,8 @@ export function FamilyMembers({
     if (!response.ok) {
       setError(
         response.status === 409
-          ? "That email is already in use."
-          : "Couldn't add that member."
+          ? dict.familyMembers.emailInUse
+          : dict.familyMembers.couldntAddMember
       );
       return;
     }
@@ -133,7 +136,7 @@ export function FamilyMembers({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-base text-slate">Family members</h2>
+        <h2 className="font-display text-base text-slate">{dict.familyMembers.title}</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger
             render={
@@ -141,28 +144,28 @@ export function FamilyMembers({
             }
           >
             <PlusIcon />
-            Add member
+            {dict.familyMembers.addMember}
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add a family member</DialogTitle>
+              <DialogTitle>{dict.familyMembers.addMemberTitle}</DialogTitle>
             </DialogHeader>
             <div className="flex flex-col gap-3 py-2">
               <div>
                 <label className="mb-1.5 block text-xs font-medium text-slate">
-                  Name
+                  {dict.familyMembers.name}
                 </label>
                 <Input
                   value={form.displayName}
                   onChange={(event) =>
                     setForm({ ...form, displayName: event.target.value })
                   }
-                  placeholder="e.g. Sam"
+                  placeholder={dict.familyMembers.namePlaceholder}
                 />
               </div>
               <div>
                 <label className="mb-1.5 block text-xs font-medium text-slate">
-                  Email
+                  {dict.familyMembers.email}
                 </label>
                 <Input
                   type="email"
@@ -170,12 +173,12 @@ export function FamilyMembers({
                   onChange={(event) =>
                     setForm({ ...form, email: event.target.value })
                   }
-                  placeholder="sam@example.com"
+                  placeholder={dict.familyMembers.emailPlaceholder}
                 />
               </div>
               <div>
                 <label className="mb-1.5 block text-xs font-medium text-slate">
-                  Password
+                  {dict.familyMembers.password}
                 </label>
                 <Input
                   type="password"
@@ -188,12 +191,12 @@ export function FamilyMembers({
               </div>
               <div>
                 <label className="mb-1.5 block text-xs font-medium text-slate">
-                  Role
+                  {dict.familyMembers.role}
                 </label>
                 <RoleSelect
                   value={form.role}
                   onChange={(role) => setForm({ ...form, role })}
-                  className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm text-slate capitalize outline-none focus-visible:border-ring"
+                  className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm text-slate outline-none focus-visible:border-ring"
                 />
               </div>
             </div>
@@ -209,7 +212,7 @@ export function FamilyMembers({
                 }
                 className="bg-forest hover:bg-forest-hover"
               >
-                {creating ? "Adding…" : "Add member"}
+                {creating ? dict.familyMembers.adding : dict.familyMembers.addMember}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -240,7 +243,7 @@ export function FamilyMembers({
                   {member.display_name}
                   {isSelf && (
                     <span className="ml-1.5 text-xs font-normal text-stone">
-                      (you)
+                      {dict.familyMembers.you}
                     </span>
                   )}
                 </div>
@@ -258,7 +261,7 @@ export function FamilyMembers({
                 type="button"
                 onClick={() => handleDelete(member)}
                 disabled={isSelf || busyId === member.id}
-                aria-label={`Remove ${member.display_name}`}
+                aria-label={dict.familyMembers.removeMember(member.display_name)}
                 className="text-stone transition-colors hover:text-rust disabled:opacity-30"
               >
                 <TrashIcon className="size-4" />

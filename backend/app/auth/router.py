@@ -4,7 +4,7 @@ from app.auth.cookies import REFRESH_TOKEN_COOKIE, clear_auth_cookies
 from app.auth.deps import get_current_user, resolve_user_from_token
 from app.auth.security import issue_tokens, verify_password
 from app.models.user import User
-from app.schemas.auth import LoginRequest, UserOut
+from app.schemas.auth import LoginRequest, UpdateLocaleRequest, UserOut
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -36,4 +36,13 @@ async def logout(response: Response) -> dict[str, str]:
 
 @router.get("/me", response_model=UserOut)
 async def me(user: User = Depends(get_current_user)) -> UserOut:
+    return UserOut.from_user(user)
+
+
+@router.patch("/me", response_model=UserOut)
+async def update_me(
+    payload: UpdateLocaleRequest, user: User = Depends(get_current_user)
+) -> UserOut:
+    user.locale = payload.locale
+    await user.save()
     return UserOut.from_user(user)

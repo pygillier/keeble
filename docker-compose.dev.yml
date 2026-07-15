@@ -6,5 +6,12 @@ services:
     volumes:
       - mongo_dev_data:/data/db
 
+  mongoman:
+    image: ghcr.io/aientech/mongoman:main
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017
+    ports:
+      - '4000:3000'
+
 volumes:
   mongo_dev_data:

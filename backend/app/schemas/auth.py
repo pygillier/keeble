@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 
-from app.models.user import Role, User
+from app.models.user import Locale, Role, User
 
 
 class LoginRequest(BaseModel):
@@ -14,6 +14,7 @@ class UserOut(BaseModel):
     display_name: str
     role: Role
     family_id: str
+    locale: Locale
 
     @classmethod
     def from_user(cls, user: User) -> "UserOut":
@@ -23,7 +24,12 @@ class UserOut(BaseModel):
             display_name=user.display_name,
             role=user.role,
             family_id=str(user.family_id),
+            locale=user.locale,
         )
+
+
+class UpdateLocaleRequest(BaseModel):
+    locale: Locale
 
 
 class SetupRequest(BaseModel):

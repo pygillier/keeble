@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/i18n/locale-context";
 
 export function AuthCard({ children }: { children: React.ReactNode }) {
+  const dict = useDictionary();
   return (
     <div className="w-full max-w-sm rounded-lg border border-border bg-white p-9 pb-7 shadow-lg">
       <h1 className="text-center font-display text-3xl text-forest">Keeble</h1>
-      <p className="mb-6 text-center text-sm text-stone">
-        Your family&apos;s guide to everything at home
-      </p>
+      <p className="mb-6 text-center text-sm text-stone">{dict.auth.tagline}</p>
       {children}
     </div>
   );
